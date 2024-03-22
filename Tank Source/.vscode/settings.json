@@ -1,5 +1,7 @@
 {
 	"files.associations": {
-		"interrupt.h": "c"
+		"interrupt.h": "c",
+		"atmega2560.h": "c",
+		"serial.h": "c"
 	}
 }
