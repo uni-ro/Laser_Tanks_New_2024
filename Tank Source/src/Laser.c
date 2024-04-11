@@ -47,7 +47,7 @@ void Laser_Shoot() {
 // Handles turning the laser off
 void priv_LaserOff() {
 	if (laser_on == false) { return; } // If the laser is already off, do nothing
-	#ifdef DEUBG_LASER == 1 // Only include the debug code if debugging is enabled
+	#if DEUBG_LASER == 1 // Only include the debug code if debugging is enabled
 	debug_string("laser_off"); // Debug turning the laser off
 	#endif
 	laser_on = false;
@@ -57,7 +57,7 @@ void priv_LaserOff() {
 // Handles turning the laser on
 void priv_LaserOn() {
 	if (laser_on == true) { return; } // If the laser is alread on, do nothing
-	#ifdef DEBUG_LASER == 1 // Only include the debug code if debugging is enabled
+	#if DEBUG_LASER == 1 // Only include the debug code if debugging is enabled
 	debug_string("laser_on"); // Debug turning the laser on
 	#endif
 	laser_on = true;

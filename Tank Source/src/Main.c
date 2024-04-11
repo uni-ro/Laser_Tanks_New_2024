@@ -29,23 +29,30 @@
 #include "ATMEGA2560.h"
 #include "Comms.h"
 #include "Laser.h"
+#include "Drive.h"
+
+int state = 0;
 
 int main() {
 	
+	
 	Laser_Init(); // Setup the Laser system
 	Comms_Init(); // Setup the Comms system
+	Drive_Init();
 	
 	milliseconds_init(); // Start the timer
-	
+	adc_init();
+
 	while (true) {
-		ms = milliseconds_now(); // Record the current time
+
+	 	ms = milliseconds_now(); // Record the current time
+	
+	 	Laser_Update(); // Laser system "thinking"
+	 	Comms_Update(); // Comms system "thinking"
+		Drive_Update(); // Drive system "thinking"
 		
-		Laser_Update(); // Laser system "thinking"
-		Comms_Update(); // Comms system "thinking"
 		
-		_delay_ms(1); // Little pause
-		
-	}
+	 }
 	
 	return 1;
 }

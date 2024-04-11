@@ -229,7 +229,7 @@ uint8_t serial3_read_byte() {
 // Havent tested this without specifying the length of the string yet.
 void debug_string(char* string) {
 	
-	char* printStr = "";
+	char* printStr[256];
 	sprintf(printStr, "%s%c", string, '\n');
 	serial0_print_string(printStr);
 	
@@ -239,7 +239,7 @@ void debug_string(char* string) {
 // Havent tested this without specifying the length of the string yet
 void debug_int(char* label, int data) {
 	
-	char* printStr = "";
+	char* printStr[256];
 	sprintf(printStr, "%s: %d%c", label, data, '\n');
 	serial0_print_string(printStr);
 	
@@ -249,7 +249,7 @@ void debug_int(char* label, int data) {
 // Havent tested this without specifying the length of the string yet
 void debug_float(char* label, float data) {
 	
-	char* printStr = "";
+	char* printStr[256];
 	sprintf(printStr, "%s: %f%c", data, data, '\n');
 	serial0_print_string(printStr);
 	
