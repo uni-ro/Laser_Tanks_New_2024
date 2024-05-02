@@ -1,0 +1,6 @@
+[submodule "FastLED"]
+	path = FastLED
+	url = https://github.com/FastLED/FastLED.git
+[submodule "Tank Source/FastLED"]
+	path = Tank Source/FastLED
+	url = https://github.com/FastLED/FastLED.git

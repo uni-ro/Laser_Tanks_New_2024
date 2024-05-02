@@ -12,10 +12,10 @@ int dir = 5;
 void Drive_Update() {
 	amnt += dir;
 	if (amnt > 400 - 1) {
-		dir *= -1;
+		dir = -dir;
 	} 
 	if (amnt < 0) {
-		dir *= -1;
+		dir = -dir;
 	} 
 	debug_int("Drive amnt", amnt);
 	Set_PWM_On_A(amnt);
