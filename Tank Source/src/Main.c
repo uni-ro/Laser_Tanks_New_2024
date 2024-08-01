@@ -32,6 +32,8 @@
 #include "Drive.h"
 
 int state = 0;
+int motor_speed_ = 400;
+int motor_speed_cooldown_ = 50;
 
 int main() {
 	
@@ -51,7 +53,15 @@ int main() {
 	 	Comms_Update(); // Comms system "thinking"
 		Drive_Update(); // Drive system "thinking"
 		
+		if (motor_speed_cooldown_ <= 0) {
+			motor_speed_cooldown_ = 50;
+			motor_speed_ *= -1;
+		}
+		motor_speed_cooldown_ -= 1;
+		Set_Speed_L(motor_speed_);
 		
+		
+		_delay_ms(50);
 	 }
 	
 	return 1;

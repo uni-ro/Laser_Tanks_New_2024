@@ -1,0 +1,16 @@
+Stuff we need right now:
+Tank CAD Model - Tom and Damien
+
+Stuff we need soon:
+Laser Receiving - Gabriel
+Networking - Silas and Xuan
+Programming - Daniel
+Motor driver circuit - Done
+
+Distant future:
+Powerups
+Map Design
+
+
+
+
