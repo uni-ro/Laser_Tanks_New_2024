@@ -12,6 +12,8 @@ typedef struct struct_message
 // Create a struct_message called shotted
 struct_message shotted;
 
+byte sendBuffer[255];
+
 // Emulates a broadcast
 void broadcast(const byte *message, int stringLen)
 {	
@@ -88,13 +90,28 @@ void loop()
 	int sendBytes = Serial.available();
 	if (sendBytes > 0) {
 		
-		
-		byte* sendBuffer = (byte*)malloc(sendBytes);
-		for (int i = 0; i < sendBytes; i ++) {
-			sendBuffer[i] = Serial.read();
+		for (int i = 0; i < 255; i ++) {
+			sendBuffer[i] = 0;
 		}
-		broadcast(sendBuffer, sendBytes);
-		free(sendBuffer);
+		
+		int writePos = 0;
+		while (Serial.available() != 0) {
+			sendBuffer[writePos] = Serial.read();
+			writePos ++;
+		}
+		
+		
+		Serial.print("Broadcasting [");
+		for (int i = 0; i < writePos; i ++) {
+			Serial.print(sendBuffer[i]);
+			if (i != writePos - 1) {
+				Serial.print(", ");
+			}
+			
+		}
+		Serial.println("]");
+
+		broadcast(sendBuffer, writePos);
 		
 		
 	}
