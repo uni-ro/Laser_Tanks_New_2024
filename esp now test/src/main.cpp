@@ -13,8 +13,9 @@ typedef struct struct_message
 struct_message shotted;
 
 // Emulates a broadcast
-void broadcast(const String &message)
-{
+void broadcast(const byte &message)
+{	
+	
     // Broadcast a message to every device in range
     // Send to all
     int sendStatus = esp_now_send(broadcastAddress, (u8 *)message.c_str(), message.length());
@@ -77,5 +78,23 @@ void setup()
 
 void loop()
 {
+	
+	int sendBytes = Serial.available();
+	if (sendBytes > 0) {
+		
+		
+		byte* sendBuffer = (byte*)malloc(sendBytes);
+		for (int i = 0; i < sendBytes; i ++) {
+			sendBuffer[i] = Serial.read();
+		}
+		
+		broadcast(sendBuffer);
+		
+		free(sendBuffer);
+		
+		
+	}
+	//broadcast("lol");
+	delay(500);
     // put your main code here, to run repeatedly:
 }
