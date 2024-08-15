@@ -13,12 +13,12 @@ typedef struct struct_message
 struct_message shotted;
 
 // Emulates a broadcast
-void broadcast(const byte &message)
+void broadcast(const byte *message, int stringLen)
 {	
 	
     // Broadcast a message to every device in range
     // Send to all
-    int sendStatus = esp_now_send(broadcastAddress, (u8 *)message.c_str(), message.length());
+    int sendStatus = esp_now_send(broadcastAddress, (u8 *)message, stringLen);
     // Print results to serial monitor
     if (sendStatus == 0)
     {
@@ -33,8 +33,14 @@ void broadcast(const byte &message)
 
 void RecvCallback(uint8_t *mac, uint8_t *incomingData, uint8_t len)
 {
-    Serial.print("Recived");
-    Serial.println(*mac);
+    Serial.print("Recived\n");
+    for(uint8_t i = 0; i < len ; i++)
+    {
+        char tmp = *(incomingData+i);
+        Serial.print(tmp);
+    }
+    Serial.print("\n");
+    
 }
 /*
 void SentCallback(uint8_t *mac_addr, uint8_t sendStatus)
@@ -73,7 +79,7 @@ void setup()
     esp_now_set_self_role(ESP_NOW_ROLE_COMBO);
     esp_now_register_recv_cb(RecvCallback);
     esp_now_add_peer(broadcastAddress, ESP_NOW_ROLE_COMBO, 1, NULL, 0);
-    broadcast("shotted by ");
+    //broadcast("shotted by ", );
 }
 
 void loop()
@@ -87,9 +93,7 @@ void loop()
 		for (int i = 0; i < sendBytes; i ++) {
 			sendBuffer[i] = Serial.read();
 		}
-		
-		broadcast(sendBuffer);
-		
+		broadcast(sendBuffer, sendBytes);
 		free(sendBuffer);
 		
 		
