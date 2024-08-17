@@ -4,7 +4,7 @@ This document lists everything needed to complete the Laser Tanks project. Feel 
 Tasks are sorted by priority
 
 ## Contents
-[Tank CAD Model](https://github.com/curtinrobotics/Laser_Tanks_New_2024/edit/master/Tasks.md#tank-cad-model)  
+[Tank CAD Model](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#tank-cad-model)  
 [Motor Speed Control](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#motor-speed-control)  
 [Tank Microcontroller Logic](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#tank-microcontroller-logic)  
 [Networking](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#networking)  
