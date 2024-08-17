@@ -9,7 +9,7 @@ Tasks are sorted by priority
 [Tank Microcontroller Logic](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#tank-microcontroller-logic)  
 [Networking](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#networking)  
 [Remote Controller](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#remote-controller)  
-[Laser Detection](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#laser-detection)
+[Laser Detection](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#laser-detection)  
 [Map Design](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#map-design)  
 [Powerups](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#powerups) 
 
