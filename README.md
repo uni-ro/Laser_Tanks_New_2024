@@ -12,19 +12,19 @@ If you have any questions feel free to contact Project Lead, Daniel at my discor
 This document lists everything needed to complete the Laser Tanks project. Feel free to edit this document as you wish, just don't vandalise it.  
 Tasks are sorted by priority
 
-- [Tank CAD Model](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#tank-cad-model)
+- [Tank CAD Model](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/README.md#tank-cad-model)
   [Source](https://github.com/curtinrobotics/Laser_Tanks_New_2024/tree/master/Tank%20CAD%20Model)  
-- [Motor Speed Control](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#motor-speed-control)
+- [Motor Speed Control](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/README.md#motor-speed-control)
   [Source](https://github.com/curtinrobotics/Laser_Tanks_New_2024/tree/master/Motor%20Speed%20Controller)  
-- [Tank Microcontroller Logic](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#tank-microcontroller-logic)
+- [Tank Microcontroller Logic](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/README.md#tank-microcontroller-logic)
   [Source](https://github.com/curtinrobotics/Laser_Tanks_New_2024/tree/master/Tank%20Microcontroller%20Logic)  
-- [Networking](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#networking)
+- [Networking](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/README.md#networking)
   [Source](https://github.com/curtinrobotics/Laser_Tanks_New_2024/tree/master/Networking)  
-- [Remote Controller](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#remote-controller)  
-- [Laser Detection](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#laser-detection)
+- [Remote Controller](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/README.md#remote-controller)  
+- [Laser Detection](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/README.md#laser-detection)
   [Source](https://github.com/curtinrobotics/Laser_Tanks_New_2024/tree/master/Laser%20Receiver)  
-- [Map Design](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#map-design)  
-- [Powerups](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Tasks.md#powerups) 
+- [Map Design](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/README.md#map-design)  
+- [Powerups](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/README.md#powerups) 
 
 ### Assigning Tasks:
 
