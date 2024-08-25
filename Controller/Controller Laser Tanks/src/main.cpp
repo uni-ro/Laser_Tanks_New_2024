@@ -15,8 +15,11 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
+  uint16_t adc_val = analogRead(GPIO_NUM_32);
+  Serial.print(adc_val);
+  Serial.print("\n");
 
-  Serial.println(sprintf(string, "%d", analogRead(GPIO_NUM_4)));
+  delay(50);
 
 }
 
