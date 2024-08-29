@@ -1,7 +1,8 @@
+//ESP8266
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <espnow.h>
-#define MAC_ADDR_SIZE 6
+#define MAC_ADDR_SIZE 12
 #define SHOOTER_ID_SIZE 1
 //#define DEBUG
 uint8_t ServerAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
@@ -10,6 +11,7 @@ typedef struct struct_message
 {
     char macLocal[MAC_ADDR_SIZE];
     char shooterID[SHOOTER_ID_SIZE];
+    char extraMessage[11] = "Hit by you";
 
 } struct_message;
 
@@ -43,7 +45,6 @@ void setup()
     // Init motor board
     
     // Init ESP-NOW
-    
     if (esp_now_init() != 0)
     {
         Serial.println("Error initializing ESP-NOW");
