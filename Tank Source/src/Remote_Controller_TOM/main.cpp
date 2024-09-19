@@ -1,7 +1,8 @@
 #include <Arduino.h>
 
 
-int customMap(int value, int fromLow, int center, int fromHigh, int toLow, int centerOutput, int toHigh) {
+int customMap(int value, int fromLow, int center, int fromHigh, int toLow, int centerOutput, int toHigh)
+{
   if (value < center) {
     // Map from the lower range
     return map(value, fromLow, center, toLow, centerOutput);
@@ -14,7 +15,20 @@ int customMap(int value, int fromLow, int center, int fromHigh, int toLow, int c
 
 void setup() 
 {
-  // put your setup code here, to run once:
+  pinMode(34, INPUT); // X
+  pinMode(35, INPUT); // Y
+  pinMode(15, INPUT); // Sel
+
+  pinMode(25, INPUT); // X
+  pinMode(26, INPUT); // Y
+  pinMode(27, INPUT); // Sel
+
+  pinMode(2, OUTPUT);
+  
+  //pinMode(GPIO_NUM_35, INPUT);
+  //pinMode(GPIO_NUM_32, INPUT);
+  //pinMode(GPIO_NUM_33, INPUT);
+  //put your setup code here, to run once:
   Serial.begin(9600);
 }
 
@@ -22,9 +36,28 @@ void loop()
 {
   // put your main code here, to run repeatedly:
 
-  uint16_t adc_valX = analogRead(GPIO_NUM_32);
-  uint16_t adc_valY = analogRead(GPIO_NUM_33);
-  uint16_t adc_valSel = digitalRead(GPIO_NUM_35);
+  uint16_t adc_valXL = analogRead(34);
+  uint16_t adc_valYL = analogRead(35);
+  uint16_t adc_SelL = digitalRead(15);
+
+  uint16_t adc_valXR = analogRead(25);
+  uint16_t adc_valYR = analogRead(26);
+  uint16_t adc_SelR = digitalRead(27);
+
+  if(adc_SelL == 0)
+  {
+    digitalWrite(2, 1);
+  }
+  else
+  {
+    digitalWrite(2, 0);
+  }
+
+  
+  
+  //uint16_t adc_valSel = digitalRead(GPIO_NUM_15);
+  
+  /*
   int centerX = 2890;
   int centerY = 2890;
   int threshold = 50;
@@ -41,17 +74,26 @@ void loop()
   {
     scaledY = 0;
   }
+  */
 
   // Printing
-  Serial.print(">X:"); 
-  Serial.print(scaledX);
+  Serial.print(">XL:"); 
+  Serial.print(adc_valXL);
   Serial.print(',');
-  Serial.print("Y:");
-  Serial.print(scaledY);
+  Serial.print("YL:");
+  Serial.print(adc_valYL);
   Serial.print(',');
-  Serial.print("Sel:");
-  Serial.print(adc_valSel);
-  Serial.print("\n");
+  Serial.print("SelL:");
+  Serial.print(adc_SelL);
+  Serial.print(">XR:"); 
+  Serial.print(adc_valXR);
+  Serial.print(',');
+  Serial.print("YR:");
+  Serial.print(adc_valYR);
+  Serial.print(',');
+  Serial.print("SelR:");
+  Serial.print(adc_SelR);
+  Serial.println();
 
   delay(50);
 }
