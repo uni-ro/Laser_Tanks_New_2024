@@ -4,7 +4,7 @@ using ImGuiNET;
 namespace ControllerPC {
 	internal class GUI : Overlay {
 
-		bool connectAutomatically = true;
+		bool connectAutomatically = false;
 		int currentPortIndex = 0;
 
 		bool leftMotorOn = false;
