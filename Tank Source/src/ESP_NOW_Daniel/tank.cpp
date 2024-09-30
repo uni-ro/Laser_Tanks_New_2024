@@ -6,35 +6,44 @@
 uint8_t master_address[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 uint8_t led_pulse = 0;
 
+// Pin D2
+#define LEFT_MOTOR_PWM 14
+#define LEFT_MOTOR_DIR_A 4
+#define LEFT_MOTOR_DIR_B 5
 
+#define RIGHT_MOTOR_PWM 15
+#define RIGHT_MOTOR_DIR_A 13
+#define RIGHT_MOTOR_DIR_B 12
+
+#define LIGHT_SENSOR A0
 
 void HandleCommand(uint8_t command, uint8_t parameter) {
 	
 	if (command == 0x00) {
 		// Echo
-		
 		ReturnPingESPNow(master_address, 2);
 		
 	}
 	if (command == 0x02) {
-		
-		if (parameter < 127) {
-			digitalWrite(5, HIGH);
-		}
-		else {
-			digitalWrite(5, LOW);
-		}
-		
+		// Left motor speed
+		analogWrite(LEFT_MOTOR_PWM, parameter);
 	}
 	if (command == 0x03) {
-		
-		if (parameter < 127) {
-			digitalWrite(4, HIGH);
-		}
-		else {
-			digitalWrite(4, LOW);
-		}
-		
+		// Left motor direction
+		digitalWrite(LEFT_MOTOR_DIR_A, parameter ^ 1);
+		digitalWrite(LEFT_MOTOR_DIR_B, parameter);
+
+	}
+	
+	if (command == 0x04) {
+		// Right motor speed
+		analogWrite(RIGHT_MOTOR_PWM, parameter);
+	}
+	if (command == 0x05) {
+		// Right motor direction
+		digitalWrite(RIGHT_MOTOR_DIR_A, parameter ^ 1);
+		digitalWrite(RIGHT_MOTOR_DIR_B, parameter);
+
 	}
 	
 }
@@ -47,9 +56,11 @@ void ESPNowCallback(uint8_t *mac_addr, uint8_t *data, uint8_t length) {
 	for (uint8_t i = 0; i < length / 2; i ++) {
 		HandleCommand(commandBuffer[i], parameterBuffer[i]);
 	}
-	
+
 	free(commandBuffer);
 	free(parameterBuffer);
+	
+	digitalWrite(LED_BUILTIN, !HIGH);
 	
 }
 void SerialCallback(uint8_t *messageData) {
@@ -100,20 +111,48 @@ void setup() {
 	InitESPNow();
 	
 	pinMode(LED_BUILTIN, OUTPUT);
-	pinMode(4, OUTPUT);
-	pinMode(5, OUTPUT);
+	pinMode(LED_BUILTIN_AUX, OUTPUT);
 	
-	//digitalWrite(4, HIGH);
-	//digitalWrite(5, HIGH);
+	pinMode(LEFT_MOTOR_PWM, OUTPUT);
+	pinMode(LEFT_MOTOR_DIR_A, OUTPUT);
+	pinMode(LEFT_MOTOR_DIR_B, OUTPUT);
+	
+	pinMode(RIGHT_MOTOR_PWM, OUTPUT);
+	pinMode(RIGHT_MOTOR_DIR_A, OUTPUT);
+	pinMode(RIGHT_MOTOR_DIR_B, OUTPUT);
+	
+	pinMode(LIGHT_SENSOR, INPUT);
 	
 	Comms_Init();
 	
 }
 
+int pulseCounter = 0;
 void loop() {
 	
 	delay(50);
-
+	digitalWrite(LED_BUILTIN, ~LOW);
+	
+	if (pulseCounter == 0 || pulseCounter == 4) {
+		digitalWrite(LED_BUILTIN_AUX, !HIGH);
+		delay(2);
+		digitalWrite(LED_BUILTIN_AUX, !LOW);
+	}
+	pulseCounter ++;
+	pulseCounter %= 16;
+	
+	float batteryVoltage = 9.9 * analogRead(LIGHT_SENSOR) / 1024;
+	
+	/*
+	Serial.print(">Battery_Voltage:");
+	Serial.print(batteryVoltage);
+	
+	Serial.print(",Target_Voltage:");
+	Serial.print(8.4);
+	
+	Serial.print(",Minimum_Voltage:");
+	Serial.println(6.4);
+	*/
 	if (ReadReadySerial() == true) {
 		
 		uint8_t *messageData = ReadMessageSerial();

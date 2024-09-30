@@ -56,6 +56,11 @@ void SerialCallback(uint8_t *messageData) {
 	free(commandBuffer);
 	free(parameterBuffer);
 	
+	digitalWrite(LED_BUILTIN, !HIGH);
+	delay(2);
+	digitalWrite(LED_BUILTIN, !LOW);
+	
+	
 }
 
 
@@ -93,7 +98,7 @@ void setup() {
 	InitESPNow();
 	
 	pinMode(LED_BUILTIN, OUTPUT);
-	digitalWrite(LED_BUILTIN, HIGH);
+	digitalWrite(LED_BUILTIN, !LOW);
 	
 	Comms_Init();
 	
@@ -101,13 +106,11 @@ void setup() {
 
 
 
-
-
 void loop() {
 	
 
 	delay(50);
-	
+	digitalWrite(LED_BUILTIN, !LOW);
 	
 	if (ReadReadySerial() == true) {
 		

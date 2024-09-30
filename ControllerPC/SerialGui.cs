@@ -2,39 +2,31 @@
 using ImGuiNET;
 
 namespace ControllerPC {
-	internal class GUI : Overlay {
+	public static class SerialGui {
 
-		bool connectAutomatically = false;
-		int currentPortIndex = 0;
+		static bool connectAutomatically = false;
+		static int currentPortIndex = 0;
+		static int cooldownMs = 50;
+		
 
-		bool leftMotorOn = false;
-		bool rightMotorOn = false;
-
-		struct SendParameters {
-			public int testCommand;
-			public int testParameter;
-		}
-		SendParameters sp;
-		int testPingVal = 0;
-
-		public GUI() {
-			Start();
-			sp = new SendParameters();
-			sp.testCommand = 0;
-			sp.testParameter = 0;
+		public static void Init() {
+			
 		}
 
-		protected override void Render() {
+		public static void Render() {
 
 			Comms.Update();
 			currentPortIndex = Math.Min(Comms.portNames.Length - 1, currentPortIndex);
 
 			ImGui.Begin("Serial");
 
-			#region Port connecting
 
 			ImGui.SeparatorText("Serial Port"); // Serial Port header
 			ImGui.Text("Status: " + (Comms.serialPort.IsOpen ? "Open" : "Closed"));
+
+
+			currentPortIndex = Math.Max(currentPortIndex, 0);
+			currentPortIndex = Math.Min(currentPortIndex, Math.Max(0, Comms.portNames.Length - 1));
 
 			ImGui.BeginDisabled(Comms.serialPort.IsOpen == true); // Disable editing the port and baudrate if there is an open serial connection
 			ImGui.Combo("Port", ref currentPortIndex, Comms.portNames, Comms.portNames.Length); // Allow the user to edit the port
@@ -60,45 +52,14 @@ namespace ControllerPC {
 			ImGui.SameLine();
 			ImGui.Checkbox("Connect Automatically", ref connectAutomatically);
 
+			if (ImGui.InputInt("Cooldown MS", ref cooldownMs) == true) {
+				Comms.SetCooldown(cooldownMs);
+			}
 
-
-			#endregion
 
 			ImGui.End();
 
-			ImGui.Begin("Controls");
-
-			ImGui.BeginDisabled(Comms.serialPort.IsOpen == false);
-
-			ImGui.Text("Debug CMD PAR pair");
-			ImGui.InputInt2("(CMD, PAR)", ref sp.testCommand);
-			ImGui.SameLine();
-			if (ImGui.Button("Send") == true) {
-				Comms.SendMessage(new (byte, byte)[] { ((byte)sp.testCommand, (byte)sp.testParameter) });
-			}
-
-			ImGui.NewLine();
-			ImGui.Text("Builtin commands");
-			if (ImGui.Button("Ping") == true) {
-				Comms.Ping();
-			}
-
-			if (ImGui.Checkbox("Left motor power", ref leftMotorOn) == true) {
-				Comms.SetLeftMotorSpeed(leftMotorOn == true ? 255 : 0);
-			}
-			if (ImGui.Checkbox("Right motor power", ref rightMotorOn) == true) {
-				Comms.SetRightMotorSpeed(rightMotorOn == true ? 255 : 0);
-			}
-
-			ImGui.EndDisabled();
-
-			ImGui.End();
-
-			DebugLog.Render();
-
-			if (ImGui.IsKeyPressed(ImGuiKey.Escape) == true) {
-				Close();
-			}
+			
 		}
 
 	}
