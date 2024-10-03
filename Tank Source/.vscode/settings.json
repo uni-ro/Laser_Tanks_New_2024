@@ -1,6 +1,7 @@
 {
 	"files.associations": {
-		"string_view": "cpp",
-		"random": "cpp"
-	}
+        "string_view": "cpp",
+        "random": "cpp",
+        "esp_now_util.h": "c"
+    }
 }

@@ -4,7 +4,8 @@
 #define MAC_ADDR_SIZE 12
 #define SHOOTER_ID_SIZE 1
 #define SIGNCHANNEL 2
-// #define PLATFORM 8266
+//#define PLATFORM 8266
+#define PLATFORM 32
 //  general headers
 #include <Arduino.h>
 
@@ -38,7 +39,6 @@ typedef struct struct_pairing
 typedef struct struct_controller
 {
     uint16_t XL,YL,SelL,XR,YR,SelR;
-    uint8_t command[20];
     //uint8_t macAddr[6];
 } struct_controller;
 
@@ -71,6 +71,16 @@ void GetMacAddress(uint8_t *DistAddress)
 }
 
 void DisplayMAC(uint8_t *MacIndex)
+{
+    for (int i = 0; i < 6; i++)
+    {
+        Serial.print(MacIndex[i], HEX);
+        Serial.print(":");
+    }
+    Serial.println(" Done");
+}
+
+void DisplayMAC(const uint8_t *MacIndex)
 {
     for (int i = 0; i < 6; i++)
     {
@@ -344,7 +354,7 @@ int espNowInitController()
 
 int espNowStart()
 {
-    espNowStartPairing(PAIRED_CONTROLLER);
+    espNowStartPairing(PAIRED_TANK);
     esp_now_unregister_recv_cb();
     // esp_now_register_recv_cb(RecvCallbackGaming);
     return 0;
@@ -404,7 +414,7 @@ int espNowStopPairing()
 
 void RecvCallbackPairing(const uint8_t *senderMAC, const uint8_t *incomingData, int len)
 {
-    // DisplayMAC(senderMAC);
+    DisplayMAC(senderMAC);
     switch (len)
     {
     case sizeof(struct_pairing):
@@ -426,10 +436,18 @@ void RecvCallbackPairing(const uint8_t *senderMAC, const uint8_t *incomingData, 
     }
 }
 
-int Sent
+void updateMovementData(uint16_t XL, uint16_t YL, uint16_t SelL, uint16_t XR, uint16_t YR, uint16_t SelR){
+    movementInfo.XL = XL;
+    movementInfo.YL = YL;
+    movementInfo.SelL = SelL;
+    movementInfo.XR = XR;
+    movementInfo.YR = YR;
+    movementInfo.SelR = SelR;
+}
 
-
-
+int SendMovementData(){
+    return (esp_now_send(0, (uint8_t *)&movementInfo, sizeof(movementInfo)));
+}
 
 
 void GameManager(bool gameStatus)
