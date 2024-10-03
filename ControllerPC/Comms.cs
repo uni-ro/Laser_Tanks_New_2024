@@ -1,11 +1,10 @@
-﻿
-using System.IO.Ports;
+﻿using System.Diagnostics;
 using System.Drawing;
-using System.Reflection;
+using System.IO.Ports;
 
 namespace ControllerPC {
 
-	internal class Comms {
+	public class Comms {
 
 		// Comms
 		// Start byte A - 0xFF
@@ -32,96 +31,53 @@ namespace ControllerPC {
 		// 1 - ping return
 
 
-		static GUI gui;
 
-		internal static int refreshCounter = 0;
+		public static int refreshCounter = 0;
 		static string serialString = "";
 
-		internal static SerialPort serialPort;
-		internal static int baudRate = 9600;
+		public static SerialPort serialPort;
+		public static int baudRate = 9600;
 
-		internal static string[] portNames;
+		public static string[] portNames;
 
 		static int startByteProg = 0;
 		static int waitForMessage = -1;
 
-		static void Main(string[] args) {
+		static int cooldownMs = 50;
+		static Stopwatch cooldownTime;
 
+		static Action<byte[]> outgoingCallback;
+
+		public static void Init() {
 			portNames = new string[0];
 			serialPort = new SerialPort();
+			cooldownTime = new Stopwatch();
+			cooldownTime.Start();
 
-			gui = new GUI();
-			
+			outgoingCallback = (byte[] data) => { };
+
 		}
 
-		internal static void Update() {
+		public static void SetCallback(Action<byte[]> outgoingCallback) {
+			Comms.outgoingCallback = outgoingCallback;
+		}
+
+		public static void SetCooldown(int cooldownMs) {
+			Comms.cooldownMs = cooldownMs;
+		}
+
+		public static void Update() {
+
+			// Refresh portnames
 			portNames = SerialPort.GetPortNames();
 
-			if (DebugLog.monitorSerial == true) {
-
-				while (serialPort.IsOpen == true && serialPort.BytesToRead != 0) {
-					char serialChar = (char)serialPort.ReadByte();
-
-					if (DebugLog.messages[DebugLog.messages.Count() - 1].Item2 != Color.Blue) {
-						DebugLog.Log("", Color.Blue);
-					}
-
-					if (serialChar != '\n') {
-						(string, Color) lastLogMessage = DebugLog.messages[DebugLog.messages.Count() - 1];
-						if (DebugLog.hexView == false) {
-							lastLogMessage.Item1 += serialChar;
-						}
-						else {
-							lastLogMessage.Item1 += ((int)serialChar).ToString("X") + " ";
-						}
-						
-						DebugLog.messages[DebugLog.messages.Count() - 1] = lastLogMessage;
-					}
-					else {
-						DebugLog.Log("", Color.Blue);
-					}
-
-					//MessageRecieved();
-				}
-
+			if (ReadReadySerial() == true) {
+				CommandRecieved(waitForMessage);
 			}
-			
-			if (serialPort.IsOpen == true) {
-				while (waitForMessage == -1 && serialPort.BytesToRead != 0) {
 
-					int currentByte = serialPort.ReadByte();
 
-					if (startByteProg == 2) {
-						waitForMessage = currentByte * 2 + 1;
-						startByteProg = 0;
-					}
-					if (startByteProg == 1) {
-						if (currentByte == 0x7F) {
-							startByteProg++;
-						}
-						else {
-							startByteProg = 0;
-						}
-					}
-					if (startByteProg == 0) {
-						if (currentByte == 0xFF) {
-							startByteProg++;
-						}
-						else {
-							startByteProg = 0;
-						}
-					}
 
-				}
-				if (waitForMessage != -1 && serialPort.BytesToRead >= waitForMessage) {
-					CommandRecieved(waitForMessage);
-				}
-
-			}
-			
-			
 		}
-
 
 		static void CommandRecieved(int numBytes) {
 
@@ -129,22 +85,22 @@ namespace ControllerPC {
 			int checksum = 0xFF + 0x7F + numCommands;
 
 			List<(int, int)> dataList = new List<(int, int)>();
-			for (int i = 0; i < numCommands; i ++) {
+			for (int i = 0; i < numCommands; i++) {
 
-				(int, int) newEntry = (serialPort.ReadByte(), serialPort.ReadByte());
+				(int, int) newEntry = (ReadSerial(), ReadSerial());
 				dataList.Add(newEntry);
 				checksum += newEntry.Item1 + newEntry.Item2;
-				
+
 			}
 			checksum %= 0x100;
 
 
-			int serialChecksum = serialPort.ReadByte();
-
+			int serialChecksum = ReadSerial();
 
 			if (checksum == serialChecksum) {
 
 				for (int i = 0; i < numCommands; i++) {
+
 					HandleCommand(dataList[i].Item1, dataList[i].Item2);
 				}
 
@@ -160,7 +116,7 @@ namespace ControllerPC {
 
 		}
 
-		internal static	void HandleCommand(int command, int parameter) {
+		public static void HandleCommand(int command, int parameter) {
 
 			if (command == 0x00) {
 				// Echo
@@ -182,7 +138,7 @@ namespace ControllerPC {
 				}
 
 				DebugLog.Log("Ping from" + senderName, Color.White);
-				SendMessage(new (byte, byte)[] { (0x01, 0x00) });
+				SendMessage(0x01, 0x00);
 
 			}
 			if (command == 0x01) {
@@ -210,11 +166,11 @@ namespace ControllerPC {
 		}
 
 
-		internal static void OpenSerial(string portName, int baudRate) {
-			
+		public static void OpenSerial(string portName, int baudRate) {
+
 			try {
 				serialPort = new SerialPort(portName, baudRate);
-				serialPort.Open(); 
+				serialPort.Open();
 				DebugLog.Log("Opened serial port " + portName + " @" + baudRate, Color.Green);
 			}
 			catch (Exception e) {
@@ -223,7 +179,7 @@ namespace ControllerPC {
 			}
 
 		}
-		internal static void CloseSerial() {
+		public static void CloseSerial() {
 
 			try {
 				serialPort.Close();
@@ -234,76 +190,152 @@ namespace ControllerPC {
 			}
 
 		}
-		internal static string[] GetPortNames() {
+		public static string[] GetPortNames() {
 			return portNames;
 		}
 
 
+		public static bool SendMessage(byte command, byte parameter) {
+			return SendMessage(new byte[] { command }, new byte[] { parameter });
+		}
+		public static bool SendMessage(byte[] commands, byte[] parameters) {
 
-		internal static void SendMessage((byte, byte)[] data) {
+			byte[] data = PackData(commands, parameters);
+			return SendMessage(data);
 
-			byte[] totalMessage = new byte[data.Length * 2 + 4];
+		}
+		public static bool SendMessage(byte[] data) {
 
-			totalMessage[0] = 0xFF;
-			totalMessage[1] = 0x7F;
-
-			totalMessage[2] = (byte)data.Length;
-
-			for (int i = 0; i < data.Length; i ++) {
-				totalMessage[3 + 2 * i] = data[i].Item1;
-				totalMessage[4 + 2 * i] = data[i].Item2;
-			}
-
-			totalMessage[totalMessage.Length - 1] = 0;
-			for (int i = 0; i < totalMessage.Length - 1; i ++) {
-				totalMessage[totalMessage.Length - 1] += totalMessage[i];
+			if (cooldownTime.ElapsedMilliseconds <= cooldownMs) {
+				return false;
 			}
 
 			try {
+				serialPort.Write(data, 0, data.Length);
 
-				serialPort.Write(totalMessage, 0, totalMessage.Length);
-				
-				/*
-				string debugMessage = "Sending data [";
-				for (int i = 0; i < totalMessage.Length; i++) {
-					debugMessage += DebugLog.FormatHex(totalMessage[i], 2);
-					if (i != totalMessage.Length - 1) {
-						debugMessage += ", ";
-					}
-				}
-				debugMessage += "]";
-				DebugLog.Log(debugMessage, Color.White);
-				*/
+				outgoingCallback(data);
+
+				cooldownTime.Restart();
+				return true;
 			}
 			catch (Exception e) {
 				DebugLog.Log("Failed to send data: " + e.Message, Color.Red);
 			}
-			
 
-
-			
+			return false;
 
 		}
-		internal static void Ping() {
+
+		public static bool ReadReadySerial() {
+
+			if (serialPort == null || serialPort.IsOpen == false) { return false; }
+
+			while (waitForMessage == -1 && serialPort.BytesToRead != 0) {
+
+				int currentByte = ReadSerial();
+
+
+				if (startByteProg == 2) {
+					waitForMessage = currentByte * 2 + 1;
+					startByteProg = 0;
+
+				}
+				if (startByteProg == 1) {
+					if (currentByte == 0x7F) {
+						startByteProg++;
+					}
+					else {
+						startByteProg = 0;
+					}
+				}
+				if (startByteProg == 0) {
+					if (currentByte == 0xFF) {
+						startByteProg++;
+					}
+					else {
+						startByteProg = 0;
+					}
+				}
+
+			}
+			if (waitForMessage != -1 && serialPort.BytesToRead >= waitForMessage) {
+				return true;
+			}
+			return false;
+
+		}
+
+		private static int ReadSerial() {
+			int serialByte = serialPort.ReadByte();
+			SerialMonitor.DataRecieved(serialByte);
+			return serialByte;
+		}
+
+		public static bool Ping() {
 			DebugLog.Log("Ping", Color.White);
-			SendMessage(new (byte, byte)[] { (0x00, 0x00) });
-		}
-		internal static void SetLeftMotorSpeed(int speed) {
-			SendMessage(new (byte, byte)[] { (0x02, (byte)speed) });
-		}
-		internal static void SetRightMotorSpeed(int speed) {
-			SendMessage(new (byte, byte)[] { (0x03, (byte)speed) });
+			return SendMessage(0x00, 0x00);
 		}
 
-		internal static void MessageRecieved() {
+		public static bool SendMotor(byte leftSpeed, byte leftDirection, byte rightSpeed, byte rightDirection) {
+
+			byte[] command = new byte[] { 0x02, 0x03, 0x04, 0x05 };
+			byte[] parameter = new byte[] { leftSpeed, leftDirection, rightSpeed, rightDirection };
+			return SendMessage(command, parameter);
+
+		}
+
+		public static bool SendLeftMotor(byte speed, byte direction) {
+			return SendMessage(new byte[] { 0x02, 0x03 }, new byte[] { speed, direction });
+		}
+		public static bool SendLeftMotorSpeed(byte speed) {
+			return SendMessage(0x02, speed);
+		}
+		public static bool SendLeftMotorDirection(byte direction) {
+			return SendMessage(0x03, direction);
+		}
+
+		public static bool SendRightMotor(byte speed, byte direction) {
+			return SendMessage(new byte[] { 0x04, 0x05 }, new byte[] { speed, direction });
+		}
+		public static bool SendRightMotorSpeed(byte speed) {
+			return SendMessage(0x04, speed);
+		}
+		public static bool SendRightMotorDirection(byte direction) {
+			return SendMessage(0x05, direction);
+		}
+
+		public static void MessageRecieved() {
 
 			// Skip to the 1st start byte
-			while (serialPort.ReadByte() != 0xFF && serialPort.BytesToRead != 0);
+			while (ReadSerial() != 0xFF && serialPort.BytesToRead != 0) ;
 			if (serialPort.BytesToRead == 0) { return; }
 
 			// Skip to the 2nd start byte
-			while (serialPort.ReadByte() != 0x7F && serialPort.BytesToRead != 0) ;
+			while (ReadSerial() != 0x7F && serialPort.BytesToRead != 0) ;
 			if (serialPort.BytesToRead == 0) { return; }
+
+		}
+
+		public static byte[] PackData(byte[] commands, byte[] parameters) {
+
+			byte[] totalMessage = new byte[commands.Length * 2 + 4];
+
+			totalMessage[0] = 0xFF;
+			totalMessage[1] = 0x7F;
+
+			totalMessage[2] = (byte)commands.Length;
+
+			for (int i = 0; i < commands.Length; i++) {
+				totalMessage[3 + 2 * i] = commands[i];
+				totalMessage[4 + 2 * i] = parameters[i];
+			}
+
+			totalMessage[totalMessage.Length - 1] = 0;
+			for (int i = 0; i < totalMessage.Length - 1; i++) {
+				totalMessage[totalMessage.Length - 1] += totalMessage[i];
+			}
+
+			return totalMessage;
 
 		}
 
