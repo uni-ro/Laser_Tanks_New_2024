@@ -3,9 +3,9 @@
 
 #define MAC_ADDR_SIZE 12
 #define SHOOTER_ID_SIZE 1
-#define PLATFORM 32
 #define SIGNCHANNEL 2
-// general headers
+// #define PLATFORM 8266
+//  general headers
 #include <Arduino.h>
 
 uint8_t callbackLock = 0;
@@ -30,14 +30,16 @@ enum paringStatus
 // structure for pairing, the tank itself
 typedef struct struct_pairing
 {
+    enum paringStatus targetStatus = PAIRING;
     deviceType id;
     uint8_t macAddr[6];
 } struct_pairing;
 
 typedef struct struct_controller
 {
-    uint8_t command[10];
-    uint8_t macAddr[6];
+    uint16_t XL,YL,SelL,XR,YR,SelR;
+    uint8_t command[20];
+    //uint8_t macAddr[6];
 } struct_controller;
 
 typedef struct shooting_info
@@ -46,13 +48,13 @@ typedef struct shooting_info
     uint8_t senderMacAddr[6];
 } shooting_info;
 
-extern uint8_t GameStatus = 0;
+uint8_t GameStatus = 0;
 
 paringStatus ParingStatus = PAIRING;
-extern struct_controller movementInfo;
-extern struct_pairing paringInfoRec;
-extern struct_pairing paringInfo;
-extern shooting_info laserHit;
+struct_controller movementInfo;
+struct_pairing paringInfoRec;
+struct_pairing paringInfo;
+shooting_info laserHit;
 uint8_t TankAddress[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 uint8_t ServerAddress[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 uint8_t ControlerAddress[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
@@ -60,7 +62,7 @@ const uint8_t BroadcastAddress[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 void GetMacAddress(uint8_t *DistAddress)
 {
     String val = WiFi.macAddress();
-    Serial.println(val);
+    // Serial.println(val);
     char *endPtr;
     DistAddress[0] = strtol(val.c_str(), &endPtr, 16);
     // read the first starting at the beginning of the buffer. this initializes endPtr as a pointer to the ':' after the first number
@@ -68,7 +70,25 @@ void GetMacAddress(uint8_t *DistAddress)
         DistAddress[i] = strtol(endPtr + 1, &endPtr, 16);
 }
 
+void DisplayMAC(uint8_t *MacIndex)
+{
+    for (int i = 0; i < 6; i++)
+    {
+        Serial.print(MacIndex[i], HEX);
+        Serial.print(":");
+    }
+    Serial.println(" Done");
+}
 
+void CheckInfo()
+{
+    Serial.println("TankAddress");
+    DisplayMAC(TankAddress);
+    Serial.println("ServerAddress");
+    DisplayMAC(ServerAddress);
+    Serial.println("ControlerAddress");
+    DisplayMAC(ControlerAddress);
+}
 
 #if PLATFORM == 8266
 // This is a tank
@@ -78,29 +98,36 @@ void GetMacAddress(uint8_t *DistAddress)
 // Function prototypes
 /* Broadcast Function */
 void broadcast(const u8 *message, int stringLen);
-/* RecvCallback Function */
+/* RecvCallback Functions */
 void RecvCallbackGaming(uint8_t *senderMAC, uint8_t *incomingData, uint8_t len);
+void RecvCallbackPairing(uint8_t *senderMAC, uint8_t *incomingData, uint8_t len);
+void RecvCallbackDebugger(uint8_t *senderMAC, uint8_t *incomingData, uint8_t len);
 /* SentCallback Function */
-void SentCallback(uint8_t *mac_addr, uint8_t sendStatus);
-/*report hit*/
+void SentCallback(unsigned char *mac_addr, unsigned char sendStatus);
+/*report hit to Server*/
 void ReportLaserHit(uint8_t shotterID);
-/*ParingController*/
+/*ParingController or Server*/
 void Pairing(paringStatus targetParingStatus);
 /*get mac address*/
 void GetMacAddress(uint8_t *DistAddress);
 /*init espnow*/
 int espNowInit();
+/*start espnow pairing*/
+int espNowStart();
+/*Listen ESP Now message and figure out MAC*/
+int espNowListener();
 
 int espNowInit()
 {
-    if (!esp_now_init())
-    {
-        Serial.println("Error initializing ESP-NOW");
-        return;
-    }
     Serial.print("ESP Board MAC Address:  ");
     WiFi.mode(WIFI_STA);
+    wifi_set_channel(SIGNCHANNEL);
     Serial.println(WiFi.macAddress());
+    if (esp_now_init() != 0)
+    {
+        Serial.println("Error initializing ESP-NOW");
+        return 0;
+    }
     GetMacAddress(TankAddress);
     esp_now_set_self_role(ESP_NOW_ROLE_COMBO);
     paringInfo.id = TANK;
@@ -111,24 +138,38 @@ int espNowInit()
 
 int espNowStart()
 {
-    esp_now_register_recv_cb(RecvCallbackPairing);
     esp_now_register_send_cb(SentCallback);
-    Pairing(PAIRED_SERVER);
+    //Pairing(PAIRED_SERVER);
     Pairing(PAIRED_CONTROLLER);
     esp_now_unregister_recv_cb();
     esp_now_register_recv_cb(RecvCallbackGaming);
     return 0;
 }
 
+int espNowListener()
+{
+    esp_now_register_recv_cb(RecvCallbackDebugger);
+    return 0;
+}
+
 void Pairing(paringStatus targetParingStatus)
 {
+    paringInfo.targetStatus = targetParingStatus;
+    esp_now_register_recv_cb(RecvCallbackPairing);
     // Broadcast the mac address
     while (ParingStatus != targetParingStatus)
     {
+        Serial.println("Paring...");
         broadcast((u8 *)&paringInfo, sizeof(paringInfo));
+        Serial.println("Paring Info Sent");
         while (callbackLock == 1)
+        {
             delay(300);
+            Serial.println("Call back is running");
+        }
+        delay(300);
     }
+    esp_now_unregister_recv_cb();
 }
 
 void RecvCallbackPairing(uint8_t *senderMAC, uint8_t *incomingData, uint8_t len)
@@ -136,41 +177,47 @@ void RecvCallbackPairing(uint8_t *senderMAC, uint8_t *incomingData, uint8_t len)
     if (callbackLock == 1)
         return;
     callbackLock = 1;
-    if (((struct_pairing *)incomingData)->id != TANK)
+    memcpy(&paringInfoRec, (struct_pairing *)incomingData, sizeof(paringInfoRec));
+    Serial.println("Callback is running, locked");
+    if (paringInfoRec.id != TANK)
     {
-        String senderMAC_s;
-        if (sscanf(senderMAC_s.c_str(), "%02X:%02X:%02X:%02X:%02X:%02X", &senderMAC[0], &senderMAC[1], &senderMAC[2], &senderMAC[3], &senderMAC[4], &senderMAC[5]) != 6)
-            Serial.println("ERROR while fetch mac address");
-        else
-            Serial.println("From " + senderMAC_s);
+        DisplayMAC(paringInfoRec.macAddr);
         Serial.println("Got pairing information feedback!");
         uint8_t *macPtr;
-        if (((struct_pairing *)incomingData)->id == CONTROLLER)
+        if (paringInfoRec.id == CONTROLLER)
+        {
             macPtr = ControlerAddress;
-        else if (((struct_pairing *)incomingData)->id == GAMESERVER)
+            ParingStatus = PAIRED_CONTROLLER;
+        }
+        else if (paringInfoRec.id == GAMESERVER)
+        {
             macPtr = ServerAddress;
+        }
         else
         {
-           callbackLock = 0;
-           return; 
+            callbackLock = 0;
+            return;
         }
         memcpy(macPtr, ((struct_pairing *)incomingData)->macAddr, 6);
         esp_now_add_peer(macPtr, ESP_NOW_ROLE_COMBO, SIGNCHANNEL, NULL, 0);
+
         // add the controller to the peer list
         bool exists = esp_now_is_peer_exist(macPtr);
         if (exists)
+        {
             ParingStatus = (macPtr == ControlerAddress) ? PAIRED_CONTROLLER : PAIRED_SERVER;
+        }
+        else
+        {
+        }
     }
     callbackLock = 0;
+    Serial.println("Callback finished, unlocked");
 }
 
 void RecvCallbackGaming(uint8_t *senderMAC, uint8_t *incomingData, uint8_t len)
 {
-    String senderMAC_s;
-    if (sscanf(senderMAC_s.c_str(), "%02X:%02X:%02X:%02X:%02X:%02X", &senderMAC[0], &senderMAC[1], &senderMAC[2], &senderMAC[3], &senderMAC[4], &senderMAC[5]) != 6)
-        Serial.println("ERROR while fetching mac address");
-    else
-        Serial.println("From " + senderMAC_s);
+    DisplayMAC(((struct_pairing *)incomingData)->macAddr);
     switch (len)
     {
     case sizeof(struct_controller):
@@ -194,6 +241,26 @@ void RecvCallbackGaming(uint8_t *senderMAC, uint8_t *incomingData, uint8_t len)
     }
 }
 
+void RecvCallbackDebugger(uint8_t *senderMAC, uint8_t *incomingData, uint8_t len)
+{
+    DisplayMAC(senderMAC);
+    switch (len)
+    {
+    case sizeof(struct_controller):
+        Serial.println("controller info from controller ");
+        Serial.println("Copying moveinfo");
+        break;
+    case sizeof(struct_pairing):
+        Serial.println("pairing info");
+        break;
+    case sizeof(shooting_info):
+        Serial.println("shooting_info");
+        break;
+    default:
+        Serial.println("ERROR");
+        break;
+    }
+}
 
 void ReportLaserHit(uint8_t shooterID)
 {
@@ -221,8 +288,7 @@ void broadcast(const u8 *message, int stringLen)
     Serial.println();
 }
 
-
-void SentCallback(const uint8_t *mac_addr, uint8_t sendStatus)
+void SentCallback(unsigned char *mac_addr, unsigned char sendStatus)
 {
 
     Serial.print("Last Packet Send Status: ");
@@ -232,18 +298,19 @@ void SentCallback(const uint8_t *mac_addr, uint8_t sendStatus)
         Serial.println("Delivery fail");
 }
 
-
 #endif
 
+// For esp32
 #if PLATFORM == 32
 #include <Arduino.h>
 #include <esp_now.h>
 #include <esp_wifi.h>
 #include <WiFi.h>
 
-uint8_t TankAddress[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-uint8_t ServerAddress[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 esp_now_peer_info_t slave;
+int espNowStartPairing(paringStatus targetParingStatus);
+void RecvCallbackPairing(const uint8_t *senderMAC, const uint8_t *incomingData, int len);
+int espNowStopPairing();
 
 void broadcast(const uint8_t *message, int stringLen)
 {
@@ -257,21 +324,29 @@ void broadcast(const uint8_t *message, int stringLen)
     Serial.println();
 }
 
-
-int espNowInit()
+int espNowInitController()
 {
-    if (!esp_now_init())
-    {
-        Serial.println("Error initializing ESP-NOW");
-        return;
-    }
     Serial.print("ESP Board MAC Address:  ");
     WiFi.mode(WIFI_STA);
+    esp_wifi_set_channel(SIGNCHANNEL, WIFI_SECOND_CHAN_NONE);
     Serial.println(WiFi.macAddress());
-    GetMacAddress(ServerAddress);
-    esp_now_peer_info_t tanks;
-    paringInfo.id = GAMESERVER;
-    memcpy(&(paringInfo.macAddr), ServerAddress, 6);
+    if (esp_now_init() != 0)
+    {
+        Serial.println("Error initializing ESP-NOW");
+        return 0;
+    }
+    GetMacAddress(ControlerAddress);
+    paringInfo.id = CONTROLLER;
+    memcpy(&(paringInfo.macAddr), ControlerAddress, 6);
+    memcpy(&(laserHit.senderMacAddr), ControlerAddress, 6);
+    return 0;
+}
+
+int espNowStart()
+{
+    espNowStartPairing(PAIRED_CONTROLLER);
+    esp_now_unregister_recv_cb();
+    // esp_now_register_recv_cb(RecvCallbackGaming);
     return 0;
 }
 
@@ -287,6 +362,7 @@ bool addPeer(const uint8_t *peer_addr)
     if (exists)
     {
         Serial.println("Already Paired");
+        ParingStatus = PAIRED_TANK;
         return true;
     }
     else
@@ -295,6 +371,7 @@ bool addPeer(const uint8_t *peer_addr)
         if (addStatus == ESP_OK)
         {
             Serial.println("Pair success");
+            ParingStatus = PAIRED_TANK;
             return true;
         }
         else
@@ -305,30 +382,29 @@ bool addPeer(const uint8_t *peer_addr)
     }
 }
 
-int espNowStartPairing()
+int espNowStartPairing(paringStatus targetParingStatus)
 {
     esp_now_register_recv_cb(RecvCallbackPairing);
-    esp_now_register_send_cb(SentCallback);
+    while (ParingStatus != targetParingStatus)
+    {
+        Serial.println("Finding a tank...");
+        delay(300);
+    }
+    Serial.println("Finded a tank!");
+    CheckInfo();
+    espNowStopPairing();
     return 0;
 }
 
-
 int espNowStopPairing()
 {
-     esp_now_unregister_recv_cb();
-     return 0;
+    esp_now_unregister_recv_cb();
+    return 0;
 }
-
-
 
 void RecvCallbackPairing(const uint8_t *senderMAC, const uint8_t *incomingData, int len)
 {
-
-    String senderMAC_s;
-    if (sscanf(senderMAC_s.c_str(), "%02X:%02X:%02X:%02X:%02X:%02X", &senderMAC[0], &senderMAC[1], &senderMAC[2], &senderMAC[3], &senderMAC[4], &senderMAC[5]) != 6)
-        Serial.println("ERROR while fetching mac address");
-    else
-        Serial.println("From " + senderMAC_s);
+    // DisplayMAC(senderMAC);
     switch (len)
     {
     case sizeof(struct_pairing):
@@ -337,9 +413,11 @@ void RecvCallbackPairing(const uint8_t *senderMAC, const uint8_t *incomingData, 
             Serial.println("Paring info from tank");
             Serial.println("Copying tankinfo");
             memcpy(&paringInfoRec, incomingData, sizeof(struct_pairing));
+            memcpy(TankAddress, senderMAC, 6);
             addPeer(paringInfoRec.macAddr);
             Serial.println("Sending response");
-            esp_err_t result = esp_now_send(paringInfoRec.macAddr, (uint8_t *) &paringInfo, sizeof(paringInfo));
+            esp_err_t result = esp_now_send(paringInfoRec.macAddr, (uint8_t *)&paringInfo, sizeof(paringInfo));
+            ParingStatus = PAIRED_TANK;
         }
         return;
     default:
@@ -348,21 +426,27 @@ void RecvCallbackPairing(const uint8_t *senderMAC, const uint8_t *incomingData, 
     }
 }
 
+int Sent
+
+
+
+
+
 void GameManager(bool gameStatus)
 {
-    if(gameStatus)
+    if (gameStatus)
     {
         GameStatus = 1;
-        broadcast(&GameStatus,1);
-    }    
+        broadcast(&GameStatus, 1);
+    }
     else
     {
         GameStatus = 0;
-        broadcast(&GameStatus,1);
+        broadcast(&GameStatus, 1);
     }
     return;
 }
-void SentCallback(const uint8_t *mac_addr,  esp_now_send_status_t sendStatus)
+void SentCallback(const uint8_t *mac_addr, esp_now_send_status_t sendStatus)
 {
 
     Serial.print("Last Packet Send Status: ");
@@ -371,5 +455,8 @@ void SentCallback(const uint8_t *mac_addr,  esp_now_send_status_t sendStatus)
     else
         Serial.println("Delivery fail");
 }
+
+
+
 #endif
 #endif

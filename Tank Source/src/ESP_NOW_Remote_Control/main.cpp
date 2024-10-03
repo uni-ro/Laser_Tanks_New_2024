@@ -2,20 +2,21 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <esp_now.h>
-
-uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-typedef struct struct_message
-{
-    char macLocal[MAC_ADDR_SIZE];
-    char shooterID[SHOOTER_ID_SIZE];
-    char extraMessage[11] = "Hit by you";
-
-} struct_message;
-
-struct_message message;
+#include <../include/ESPNOWC.h>
 
 void setup() {
+    Serial.begin(75800);
+    Serial.print("ESP Board MAC Address:  ");
   // put your setup code here, to run once:
+    espNowInitController();
+    espNowStart();
+    movementInfo.XL=0;
+    movementInfo.XR=0;
+    movementInfo.YL=0;
+    movementInfo.YR=0;
+    movementInfo.SelL=0;
+    movementInfo.SelR=0;
+    
 
 }
 
