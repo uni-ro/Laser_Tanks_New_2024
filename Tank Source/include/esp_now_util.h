@@ -354,7 +354,7 @@ int espNowInitController()
 
 int espNowStart()
 {
-    espNowStartPairing(PAIRED_CONTROLLER);
+    espNowStartPairing(PAIRED_TANK);
     esp_now_unregister_recv_cb();
     // esp_now_register_recv_cb(RecvCallbackGaming);
     return 0;

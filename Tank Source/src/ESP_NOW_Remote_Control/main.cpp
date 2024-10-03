@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <esp_now.h>
-#include <../include/ESPNOWC.h>
+#include <../include/esp_now_util.h>
 
 void setup() {
     Serial.begin(75800);
@@ -16,7 +16,8 @@ void setup() {
     movementInfo.YR=0;
     movementInfo.SelL=0;
     movementInfo.SelR=0;
-    
+    updateMovementData();
+    SendMovementData();
 
 }
 
