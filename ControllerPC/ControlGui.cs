@@ -12,6 +12,8 @@ namespace ControllerPC {
 		static bool wasdControl = false;
 		static float wasdSpeed = 0.5f;
 
+		public static float batteryRemaining = 0f;
+
 		struct SendParameters {
 			public int testCommand;
 			public int testParameter;
@@ -60,6 +62,16 @@ namespace ControllerPC {
 			ImGui.SliderFloat("Speed", ref wasdSpeed, 0f, 1f);
 
 			ImGui.EndDisabled();
+
+
+			ImGui.NewLine();
+			ImGui.Text("Telemetry");
+			
+
+			
+			ImGui.ProgressBar(batteryRemaining, new System.Numerics.Vector2(ImGuiExtras.ItemWidthForTextVal("Battery life") - 5f, 0f));
+			ImGui.SameLine();
+			ImGui.Text("Battery life");
 
 			ImGui.End();
 

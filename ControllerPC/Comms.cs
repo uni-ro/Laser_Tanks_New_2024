@@ -162,6 +162,13 @@ namespace ControllerPC {
 
 				DebugLog.Log("Pong from " + senderName, Color.White);
 			}
+			if (command == 0x02) {
+				// Battery voltage
+				float max = 230f;
+				float min = 175f;
+				ControlGui.batteryRemaining = (parameter - min) / (max - min);
+
+			}
 
 		}
 

@@ -48,7 +48,7 @@ namespace ControllerPC {
 
 
 			if (scrollToBottom == true) {
-				//scrollToBottom = false;
+				scrollToBottom = false;
 				ImGui.SetScrollHereY(-ImGui.GetScrollMaxY());
 			}
 
