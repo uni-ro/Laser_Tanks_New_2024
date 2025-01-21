@@ -7,7 +7,6 @@ uint8_t slave_address[] = {0x80, 0x7D, 0x3A, 0x23, 0x7F, 0x58};
 
 
 
-
 void HandleCommand(uint8_t command, uint8_t parameter) {
 	// Senders
 	// 0 - PC
