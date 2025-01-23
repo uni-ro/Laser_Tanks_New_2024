@@ -1,0 +1,225 @@
+{
+  "main": {
+    "id": "c529573753afe4b0",
+    "type": "split",
+    "children": [
+      {
+        "id": "9359750913d6b212",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b43cba7e5796e473",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Tank CAD Model/Tank model V2.md",
+                "mode": "preview",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "Tank model V2"
+            }
+          },
+          {
+            "id": "7e7811d4f178a931",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Tank CAD Model/Tank model V3.md",
+                "mode": "preview",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "Tank model V3"
+            }
+          },
+          {
+            "id": "1e0b6cf5b61da747",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Tank CAD Model/Tank model V4.md",
+                "mode": "preview",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "Tank model V4"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "c44edae96d07a5cb",
+    "type": "split",
+    "children": [
+      {
+        "id": "d44350246e953473",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cc5bc0d622f610ae",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "5ce27cd4507fda80",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "7ca6fd0b51a03b31",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "98531ab7290a8d07",
+    "type": "split",
+    "children": [
+      {
+        "id": "adb1465d454b8abb",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "16bc0dbe86e341fa",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Welcome.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Welcome"
+            }
+          },
+          {
+            "id": "8b0150e08cf00570",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Welcome.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Welcome"
+            }
+          },
+          {
+            "id": "3ee133444288fa54",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "24aec5b5a452573a",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Welcome.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Welcome"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "1e0b6cf5b61da747",
+  "lastOpenFiles": [
+    "Tank CAD Model/Tank model V4/Back track holder.stl",
+    "Tank CAD Model/Tank model V4/Front track holder R.stl",
+    "Tank CAD Model/Tank model V4/Front track holder L.stl",
+    "Tank CAD Model/Tank model V4/Top plate.stl",
+    "Tank CAD Model/Tank model V3.md",
+    "Tank CAD Model/Tank model V4.md",
+    "Tank CAD Model/Tank model V2.md",
+    "Tank CAD Model/Tank model V3/V3 pic 3.jpg",
+    "Tank CAD Model/Tank model V3/V3 pic 2.jpg",
+    "Tank CAD Model/Tank model V3/V3 pic 1.jpg",
+    "Tank CAD Model/Tank model V4",
+    "Tank CAD Model/Tank model V4/Pasted image 20250123214053.png",
+    "Tank CAD Model/CAD Model.md",
+    "Tank CAD Model/Tank model V3/Flush screws.jpg",
+    "Tank CAD Model/Tank model V3/Cut corners.jpg",
+    "Tank CAD Model/Tank model V3/Threaded insert.jpg",
+    "Tank CAD Model/Tank model V3/Switch and LED holder too thin.jpg",
+    "Tank CAD Model/Tank model V3/Driver and idler wheel too close.jpg",
+    "Tank CAD Model/Tank model V3/Small axles.jpg",
+    "Tank CAD Model/Tank model V3/Back track holder.stl",
+    "Tank CAD Model/Tank model V3/Front track holder.stl",
+    "Tank CAD Model/Tank model V3/Top plate.stl",
+    "Tank CAD Model/Tank model V3",
+    "Tank CAD Model/New folder",
+    "Note templates/Tank model template.md",
+    "Note templates",
+    "README.md",
+    "Welcome.md"
+  ]
+}

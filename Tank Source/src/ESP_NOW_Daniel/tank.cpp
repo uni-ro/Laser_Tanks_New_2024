@@ -5,6 +5,7 @@
 
 uint8_t master_address[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 uint8_t led_pulse = 0;
+bool motorsOn = false;
 
 // Pin D2
 #define LEFT_MOTOR_PWM 14
@@ -121,7 +122,7 @@ void setup() {
 	pinMode(RIGHT_MOTOR_DIR_A, OUTPUT);
 	pinMode(RIGHT_MOTOR_DIR_B, OUTPUT);
 	
-	pinMode(LIGHT_SENSOR, INPUT);
+	//pinMode(LIGHT_SENSOR, INPUT);
 	
 	Comms_Init();
 	
@@ -138,10 +139,25 @@ void loop() {
 		delay(2);
 		digitalWrite(LED_BUILTIN_AUX, !LOW);
 	}
+	if (pulseCounter == 0) {
+		
+		int batteryLevel = (analogRead(LIGHT_SENSOR) >> 2);
+		if (batteryLevel >= 255) {
+			batteryLevel = 255;
+		}
+		
+		//int test = analogRead(LIGHT_SENSOR) >> 3;
+		uint8_t command = 0x02;
+		uint8_t parameter = batteryLevel;
+		SendMessageESPNow(master_address, &command, &parameter, 1);
+		
+	}
+	
 	pulseCounter ++;
 	pulseCounter %= 16;
 	
-	float batteryVoltage = 9.9 * analogRead(LIGHT_SENSOR) / 1024;
+	
+	
 	
 	/*
 	Serial.print(">Battery_Voltage:");
