@@ -8,15 +8,7 @@ uint8_t led_pulse = 0;
 bool motorsOn = false;
 
 // Pin D2
-#define LEFT_MOTOR_PWM 14
-#define LEFT_MOTOR_DIR_A 4
-#define LEFT_MOTOR_DIR_B 5
 
-#define RIGHT_MOTOR_PWM 15
-#define RIGHT_MOTOR_DIR_A 13
-#define RIGHT_MOTOR_DIR_B 12
-
-#define LIGHT_SENSOR A0
 
 void HandleCommand(uint8_t command, uint8_t parameter) {
 	

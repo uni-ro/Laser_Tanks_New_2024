@@ -1,7 +1,7 @@
 #ifndef TANK_CONTROL_H
 #define TANK_CONTROL_H
 
-#include <Arduino.h>>
+#include <Arduino.h>
 
 #define LEFT_MOTOR_PWM 14
 #define LEFT_MOTOR_DIR_A 4
@@ -25,6 +25,7 @@ void SetRightMotorSpeed(uint8_t speed, uint8_t direction) {
 	analogWrite(RIGHT_MOTOR_PWM, speed);
 	digitalWrite(RIGHT_MOTOR_DIR_A, direction ^ 1);
 	digitalWrite(RIGHT_MOTOR_DIR_B, direction);
+
 	
 }
 
