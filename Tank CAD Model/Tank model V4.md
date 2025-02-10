@@ -8,8 +8,10 @@ This is the 4th version of the Laser Tank model. It aims to address issues in th
 - The corner of the front track holders needing to be clipped to fit properly
 
 A big change made in V4 is the back tracks not being adjustable anymore. Instead, the tracks were modelled and measured. The required length of tracks was found to be roughy 356 mm
-![[Pasted image 20250123214053.png|1000]]
+![[Pasted image 20250123214053.png|1400]]
 
+![[IMG_2936.jpg|1400]]
+![[IMG_2934.jpg|700]] ![[IMG_2935.jpg|700]]
 
 
 ## Parts
@@ -26,6 +28,19 @@ These are the parts needed to build the Tank model V4. It reflects roughly the t
 This table does not include everything. For example the breadboard, and wires and stuff.
 
 ## Advantages
+- Having the back tracks be at a fixed position improves the visuals of the back of the tank. We no longer have an awkward overhanging area
+![[back of tank.jpg|700]]
 
+- Having the back tracks be at a fixed position removes the long thin section of PLA that is prone to bending
+![[bendy back.jpg|700]] ![[non bendy back.jpg|700]]
+
+- The section that holds the switch and LEDs holds them really firmly and nicely. Giving enough room to connect wires to it
+![[switch holder.jpg|700]]
+
+- The section that holds the protoboard holds it really nicely and firmly while being not too difficult to slide in
+![[proto board 1.jpg|700]] ![[proto board 2.jpg|700]]
 
 ## Issues
+
+- One of the clips that hold the protoboard is broken
+- ![[broken clip.jpg|1400]]

@@ -8,21 +8,7 @@
         "type": "tabs",
         "children": [
           {
-            "id": "b43cba7e5796e473",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Tank CAD Model/Tank model V2.md",
-                "mode": "preview",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "Tank model V2"
-            }
-          },
-          {
-            "id": "7e7811d4f178a931",
+            "id": "790a033773b350ea",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -50,7 +36,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -193,32 +179,32 @@
   },
   "active": "1e0b6cf5b61da747",
   "lastOpenFiles": [
+    "Tank CAD Model/Tank model V4/broken clip.jpg",
+    "Tank CAD Model/Tank model V4/proto board 2.jpg",
+    "Tank CAD Model/Tank model V4/proto board 1.jpg",
+    "Tank CAD Model/Tank model V4/switch holder.jpg",
+    "Tank CAD Model/Tank model V4/non bendy back.jpg",
+    "Tank CAD Model/Tank model V3.md",
+    "Tank CAD Model/Tank model V4.md",
+    "Tank CAD Model/Tank model V4/bendy back.jpg",
+    "Tank CAD Model/Tank model V4/back of tank.jpg",
+    "Tank CAD Model/Tank model V4/IMG_2936.jpg",
+    "Tank CAD Model/Tank model V4/IMG_2935.jpg",
+    "Tank CAD Model/Tank model V4/IMG_2934.jpg",
+    "Tank CAD Model/CAD Model.md",
+    "Tank CAD Model/Tank model V2.md",
+    "Motor Speed Controller/Motor speed controller annotated.jpg",
     "Tank CAD Model/Tank model V4/Back track holder.stl",
     "Tank CAD Model/Tank model V4/Front track holder R.stl",
     "Tank CAD Model/Tank model V4/Front track holder L.stl",
     "Tank CAD Model/Tank model V4/Top plate.stl",
-    "Tank CAD Model/Tank model V3.md",
-    "Tank CAD Model/Tank model V4.md",
-    "Tank CAD Model/Tank model V2.md",
-    "Tank CAD Model/Tank model V3/V3 pic 3.jpg",
-    "Tank CAD Model/Tank model V3/V3 pic 2.jpg",
-    "Tank CAD Model/Tank model V3/V3 pic 1.jpg",
     "Tank CAD Model/Tank model V4",
-    "Tank CAD Model/Tank model V4/Pasted image 20250123214053.png",
-    "Tank CAD Model/CAD Model.md",
-    "Tank CAD Model/Tank model V3/Flush screws.jpg",
-    "Tank CAD Model/Tank model V3/Cut corners.jpg",
-    "Tank CAD Model/Tank model V3/Threaded insert.jpg",
-    "Tank CAD Model/Tank model V3/Switch and LED holder too thin.jpg",
-    "Tank CAD Model/Tank model V3/Driver and idler wheel too close.jpg",
-    "Tank CAD Model/Tank model V3/Small axles.jpg",
     "Tank CAD Model/Tank model V3/Back track holder.stl",
     "Tank CAD Model/Tank model V3/Front track holder.stl",
     "Tank CAD Model/Tank model V3/Top plate.stl",
     "Tank CAD Model/Tank model V3",
     "Tank CAD Model/New folder",
     "Note templates/Tank model template.md",
-    "Note templates",
     "README.md",
     "Welcome.md"
   ]
