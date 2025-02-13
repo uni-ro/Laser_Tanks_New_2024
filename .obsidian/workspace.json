@@ -18,6 +18,18 @@
               "icon": "excalidraw-icon",
               "title": "Tank Motherboard V2.excalidraw"
             }
+          },
+          {
+            "id": "54221bdb5381db5f",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.8.4"
+              },
+              "icon": "lucide-book-up",
+              "title": "Release Notes 1.8.4"
+            }
           }
         ]
       }
@@ -76,7 +88,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "98531ab7290a8d07",
@@ -164,11 +177,12 @@
   },
   "active": "53610b00af860c79",
   "lastOpenFiles": [
-    "Tank CAD Model/Tank model V3.md",
-    "Tank CAD Model/Tank model V4.md",
     "Tank CAD Model/Tank model V2.md",
-    "Excalidraw/Drawing 2025-02-11 03.42.49.excalidraw.md",
+    "Tank CAD Model/Tank model V4.md",
+    "Tank CAD Model/Tank model V3.md",
+    "Tank CAD Model/CAD Model.md",
     "Tank Motherboard/Tank Motherboard V2.excalidraw.md",
+    "Excalidraw/Drawing 2025-02-11 03.42.49.excalidraw.md",
     "Tank Motherboard/Tank Motherboard V1.jpg",
     "Excalidraw/Scripts/Downloaded/Palette loader.svg",
     "Excalidraw/Scripts/Downloaded/Palette loader.md",
@@ -182,7 +196,6 @@
     "Tank CAD Model/Tank model V4/non bendy back.jpg",
     "Tank CAD Model/Tank model V4/bendy back.jpg",
     "Tank CAD Model/Tank model V4/back of tank.jpg",
-    "Tank CAD Model/CAD Model.md",
     "Tank CAD Model/Tank model V4/Back track holder.stl",
     "Tank CAD Model/Tank model V4/Front track holder R.stl",
     "Tank CAD Model/Tank model V4/Front track holder L.stl",
