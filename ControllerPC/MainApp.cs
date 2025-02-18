@@ -29,8 +29,8 @@ namespace ControllerPC {
 
 			SerialGui.Render();
 			ControlGui.Render();
-			SerialMonitor.Render();
-			DebugLog.Render();
+			//SerialMonitor.Render();
+			//DebugLog.Render();
 
 
 		}

@@ -10,7 +10,7 @@ namespace ControllerPC {
 		static bool sendRightMotorSpeed = false;
 
 		static bool wasdControl = false;
-		static float wasdSpeed = 0.5f;
+		static float wasdSpeed = 1f;
 
 		public static float batteryRemaining = 0f;
 
@@ -51,7 +51,7 @@ namespace ControllerPC {
 
 			ImGui.EndDisabled();
 
-
+			/*
 			ImGui.NewLine();
 			ImGui.Text("Telemetry");
 			
@@ -60,7 +60,7 @@ namespace ControllerPC {
 			ImGui.ProgressBar(batteryRemaining, new System.Numerics.Vector2(ImGuiExtras.ItemWidthForTextVal("Battery life") - 5f, 0f));
 			ImGui.SameLine();
 			ImGui.Text("Battery life");
-
+			*/
 			ImGui.End();
 
 

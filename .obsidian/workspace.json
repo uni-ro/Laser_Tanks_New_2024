@@ -11,14 +11,12 @@
             "id": "53610b00af860c79",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "excalidraw",
               "state": {
-                "file": "Tank Source/Communication.md",
-                "mode": "preview",
-                "source": true
+                "file": "Tank Motherboard/Tank Motherboard V2.excalidraw.md"
               },
-              "icon": "lucide-file",
-              "title": "Communication"
+              "icon": "excalidraw-icon",
+              "title": "Tank Motherboard V2.excalidraw"
             }
           },
           {
@@ -178,6 +176,17 @@
   },
   "active": "53610b00af860c79",
   "lastOpenFiles": [
+    "O-Day/O-Day instructions.txt",
+    "O-Day/Circuit board layout.png",
+    "O-Day",
+    "New folder",
+    "O-Day instructions.txt",
+    "Circuit board layout.png",
+    "Tank CAD Model/Tank model V4.md",
+    "Stuff to remember.txt",
+    "New Text Document.txt",
+    "Tank CAD Model/Tank model V3.md",
+    "Tank CAD Model/Tank model V2.md",
     "Tank Motherboard/Tank Motherboard V2.excalidraw.md",
     "Tank Source/Communication.md",
     "ControllerPC/tum3y11y.eta~",
@@ -185,14 +194,6 @@
     "ControllerPC/wk4qnbno.hm4~",
     "ControllerPC/wnsktypt.c1f~",
     "ControllerPC/ykv43oxk.djd~",
-    "ControllerPC/a4sxwnxm.nxp~",
-    "ControllerPC/0asq34mh.s3c~",
-    "ControllerPC/vjrvn3b4.24j~",
-    "ControllerPC/yrdx5h5z.tls~",
-    "ControllerPC/htt1w2af.2yf~",
-    "Tank CAD Model/Tank model V2.md",
-    "Tank CAD Model/Tank model V3.md",
-    "Tank CAD Model/Tank model V4.md",
     "Tank CAD Model/CAD Model.md",
     "Excalidraw/Drawing 2025-02-11 03.42.49.excalidraw.md",
     "Tank Motherboard/Tank Motherboard V1.jpg",
@@ -204,7 +205,6 @@
     "Tank CAD Model/Tank model V4/switch holder.jpg",
     "Tank CAD Model/Tank model V4/non bendy back.jpg",
     "Tank CAD Model/Tank model V4/bendy back.jpg",
-    "Tank CAD Model/Tank model V4/back of tank.jpg",
     "Note templates/Tank model template.md",
     "README.md",
     "Welcome.md"

@@ -4,7 +4,7 @@ using ImGuiNET;
 namespace ControllerPC {
 	public static class SerialGui {
 
-		static bool connectAutomatically = false;
+		static bool connectAutomatically = true;
 		static int currentPortIndex = 0;
 		static int cooldownMs = 50;
 		
