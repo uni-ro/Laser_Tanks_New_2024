@@ -7,11 +7,7 @@ namespace ControllerPC {
 		static bool debugOutgoing = false;
 
 		public static void Init() {
-
 			logger = new Logger();
-
-			Comms.SetCallback(OutgoingData);
-
 		}
 
 		public static void Log(string message, System.Drawing.Color color) {

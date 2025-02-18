@@ -11,24 +11,26 @@
             "id": "53610b00af860c79",
             "type": "leaf",
             "state": {
-              "type": "excalidraw",
+              "type": "markdown",
               "state": {
-                "file": "Tank Motherboard/Tank Motherboard V2.excalidraw.md"
+                "file": "Tank Source/Communication.md",
+                "mode": "preview",
+                "source": true
               },
-              "icon": "excalidraw-icon",
-              "title": "Tank Motherboard V2.excalidraw"
+              "icon": "lucide-file",
+              "title": "Communication"
             }
           },
           {
             "id": "54221bdb5381db5f",
             "type": "leaf",
             "state": {
-              "type": "release-notes",
+              "type": "excalidraw",
               "state": {
-                "currentVersion": "1.8.4"
+                "file": "Tank Motherboard/Tank Motherboard V2.excalidraw.md"
               },
-              "icon": "lucide-book-up",
-              "title": "Release Notes 1.8.4"
+              "icon": "excalidraw-icon",
+              "title": "Tank Motherboard V2.excalidraw"
             }
           }
         ]
@@ -88,8 +90,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "98531ab7290a8d07",
@@ -177,18 +178,26 @@
   },
   "active": "53610b00af860c79",
   "lastOpenFiles": [
-    "Tank CAD Model/Tank model V2.md",
-    "Tank CAD Model/Tank model V4.md",
-    "Tank CAD Model/Tank model V3.md",
-    "Tank CAD Model/CAD Model.md",
     "Tank Motherboard/Tank Motherboard V2.excalidraw.md",
+    "Tank Source/Communication.md",
+    "ControllerPC/tum3y11y.eta~",
+    "ControllerPC/dvm5ales.km1~",
+    "ControllerPC/wk4qnbno.hm4~",
+    "ControllerPC/wnsktypt.c1f~",
+    "ControllerPC/ykv43oxk.djd~",
+    "ControllerPC/a4sxwnxm.nxp~",
+    "ControllerPC/0asq34mh.s3c~",
+    "ControllerPC/vjrvn3b4.24j~",
+    "ControllerPC/yrdx5h5z.tls~",
+    "ControllerPC/htt1w2af.2yf~",
+    "Tank CAD Model/Tank model V2.md",
+    "Tank CAD Model/Tank model V3.md",
+    "Tank CAD Model/Tank model V4.md",
+    "Tank CAD Model/CAD Model.md",
     "Excalidraw/Drawing 2025-02-11 03.42.49.excalidraw.md",
     "Tank Motherboard/Tank Motherboard V1.jpg",
     "Excalidraw/Scripts/Downloaded/Palette loader.svg",
     "Excalidraw/Scripts/Downloaded/Palette loader.md",
-    "Excalidraw/Scripts/Downloaded",
-    "Excalidraw/Scripts",
-    "Excalidraw",
     "Tank CAD Model/Tank model V4/broken clip.jpg",
     "Tank CAD Model/Tank model V4/proto board 2.jpg",
     "Tank CAD Model/Tank model V4/proto board 1.jpg",
@@ -196,13 +205,6 @@
     "Tank CAD Model/Tank model V4/non bendy back.jpg",
     "Tank CAD Model/Tank model V4/bendy back.jpg",
     "Tank CAD Model/Tank model V4/back of tank.jpg",
-    "Tank CAD Model/Tank model V4/Back track holder.stl",
-    "Tank CAD Model/Tank model V4/Front track holder R.stl",
-    "Tank CAD Model/Tank model V4/Front track holder L.stl",
-    "Tank CAD Model/Tank model V4/Top plate.stl",
-    "Tank CAD Model/Tank model V4",
-    "Tank CAD Model/Tank model V3/Back track holder.stl",
-    "Tank CAD Model/Tank model V3/Front track holder.stl",
     "Note templates/Tank model template.md",
     "README.md",
     "Welcome.md"

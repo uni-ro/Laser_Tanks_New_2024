@@ -4,79 +4,177 @@
 #include "ESP_NOW_Daniel/comms.h"
 
 uint8_t master_address[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-uint8_t led_pulse = 0;
-bool motorsOn = false;
+int pulseLED = 0; // When true, the builtin LED will be pulsed during the next loop
 
-// Pin D2
+#define MOTOR_A_POS 12
+#define MOTOR_A_NEG 0
 
+#define MOTOR_B_POS 4
+#define MOTOR_B_NEG 14
 
-void HandleCommand(uint8_t command, uint8_t parameter) {
+void SendMessage(uint8_t* message, uint8_t length) {
 	
-	if (command == 0x00) {
-		// Echo
-		ReturnPingESPNow(master_address, 2);
+	Serial.write(0xFF);
+	for (int i = 0; i < length; i ++) {
+		Serial.write(message[i]);
+	}
+	Serial.write(0xFE);
+	
+}
+void SetLeftMotorSpeed(uint8_t speed, uint8_t direction) {
+	
+	if (speed == 0) {
+		digitalWrite(MOTOR_A_POS, 0);
+		digitalWrite(MOTOR_A_NEG, 0);
+	}
+	
+	if (direction == 1) {
+		digitalWrite(MOTOR_A_NEG, 0);
+		analogWrite(MOTOR_A_POS, speed);
+		return;
+	}
+	if (direction == 0) {
+		digitalWrite(MOTOR_A_POS, 0);
+		analogWrite(MOTOR_A_NEG, speed);
+		return;
+	}
+	
+	
+	
+}
+void SetRightMotorSpeed(uint8_t speed, uint8_t direction) {
+	
+	if (speed == 0) {
+		digitalWrite(MOTOR_B_POS, 0);
+		digitalWrite(MOTOR_B_NEG, 0);
+		return;
+	}
+	
+	if (direction == 1) {
+		digitalWrite(MOTOR_B_NEG, 0);
+		analogWrite(MOTOR_B_POS, speed);
+		return;
+	}
+	if (direction == 0) {
+		digitalWrite(MOTOR_B_POS, 0);
+		analogWrite(MOTOR_B_NEG, speed);
+		return;
+	}
+	
+	
+	
+	
+}
+
+void HandleMessage(uint8_t* message, uint8_t length) {
+	
+	pulseLED += 1;
+	
+	if (length == 0) { return; }
+	
+	
+	
+	// Ping command
+	if (message[0] == 0x00) {
+		if (length != 2) { return; }
+		
+		if (message[1] == 0x00) {
+			Serial.println("Ping recieved");
+			uint8_t message[] = {0x00, 0x01};
+			SendMessage(message, 2);
+		}
 		
 	}
-	if (command == 0x02) {
-		// Left motor speed
-		analogWrite(LEFT_MOTOR_PWM, parameter);
-	}
-	if (command == 0x03) {
-		// Left motor direction
-		digitalWrite(LEFT_MOTOR_DIR_A, parameter ^ 1);
-		digitalWrite(LEFT_MOTOR_DIR_B, parameter);
+
+	// Left motor speed
+	if (message[0] == 0x01) {
+		if (length != 2) { return; }
+		
+		uint8_t motorSpeed = message[1] % 0x40;
+		motorSpeed = motorSpeed << 2;
+		uint8_t direction = (message[1] >> 6) & 0b1;
+		
+		Serial.print("Motor_L: ");
+		if (direction == 1) { Serial.print("-"); }
+		else { Serial.print("+"); }
+		Serial.println(motorSpeed);
+		
+		SetLeftMotorSpeed(motorSpeed, direction);
 
 	}
 	
-	if (command == 0x04) {
-		// Right motor speed
-		analogWrite(RIGHT_MOTOR_PWM, parameter);
-	}
-	if (command == 0x05) {
-		// Right motor direction
-		digitalWrite(RIGHT_MOTOR_DIR_A, parameter ^ 1);
-		digitalWrite(RIGHT_MOTOR_DIR_B, parameter);
+	// Right motor speed
+	if (message[0] == 0x02) {
+		if (length != 2) { return; }
+		
+		uint8_t motorSpeed = message[1] % 0x40;
+		motorSpeed = motorSpeed << 2;
+		uint8_t direction = (message[1] >> 6) & 0b1;
+		
+		Serial.print("Motor_R: ");
+		if (direction == 1) { Serial.print("-"); }
+		else { Serial.print("+"); }
+		Serial.println(motorSpeed);
+		
+		SetRightMotorSpeed(motorSpeed, direction);
 
 	}
+	
+	
 	
 }
 
+uint8_t serialMessage[255];
+uint8_t serialMessageLength = 0;
+// Reads the serial messages. If a complete message has been recieved it is passed on to HandleMessage.
+void ProcessSerialMessages() {
+	
+	while (Serial.available() > 0) {
+		uint8_t currentByte = Serial.read();
+		
+		// Start byte
+		if (currentByte == 0xFF) {
+			serialMessageLength = 0;
+			continue;
+		}
+		
+		// End byte
+		if (currentByte == 0xFE) {
+			HandleMessage(serialMessage, serialMessageLength);
+			continue;
+		}
+		
+		serialMessage[serialMessageLength] = currentByte;
+		serialMessageLength ++;
+		
+		
+	}
+
+}
+
+#define ESPNOW_MESSAGE_QUEUE_LENGTH 8
+uint8_t* espnowMessage[ESPNOW_MESSAGE_QUEUE_LENGTH];
+uint8_t espnowMessageLength[ESPNOW_MESSAGE_QUEUE_LENGTH];
 void ESPNowCallback(uint8_t *mac_addr, uint8_t *data, uint8_t length) {
 	
-	uint8_t *commandBuffer = UnpackCommandsESPNow(data, length);
-	uint8_t *parameterBuffer = UnpackParametersESPNow(data, length);
+	uint8_t* espnowData = (uint8_t*)malloc(sizeof(uint8_t) * length);
+	memcpy(espnowData, data, length);
 	
-	for (uint8_t i = 0; i < length / 2; i ++) {
-		HandleCommand(commandBuffer[i], parameterBuffer[i]);
-	}
-
-	free(commandBuffer);
-	free(parameterBuffer);
-	
-	digitalWrite(LED_BUILTIN, !HIGH);
-	
-}
-void SerialCallback(uint8_t *messageData) {
-	
-	uint8_t numCommands = UnpackNumCommandsSerial(messageData);
-	uint8_t *commandBuffer = UnpackCommandsSerial(messageData);
-	uint8_t *parameterBuffer = UnpackParametersSerial(messageData);
-
-	for (uint8_t i = 0; i < numCommands; i ++) {
-		HandleCommand(commandBuffer[i], parameterBuffer[i]);
+	for (int i = 0; i < ESPNOW_MESSAGE_QUEUE_LENGTH; i ++) {
+		if (espnowMessageLength[i] == 0) {
+			espnowMessage[i] = espnowData;
+			espnowMessageLength[i] = length;
+			break;
+		}
 	}
 	
-	free(commandBuffer);
-	free(parameterBuffer);
-	
 }
-
 void InitESPNow() {
 	
 	WiFi.disconnect();
 	WiFi.mode(WIFI_STA);
 	if (esp_now_init() == 0) {
-		Serial.println("Success initialising ESPNow");
+		//Serial.println("Success initialising ESPNow");
 	}
 	else {
 		Serial.println("Failed to initialise ESPNow");
@@ -97,79 +195,62 @@ void setup() {
 	Serial.begin(9600);
 	Serial.println();
 	Serial.println();
-	Serial.println("This board is the SLAVE");
+	Serial.println("This is the Tank board");
 	Serial.print("MAC Address: ");
 	Serial.println(WiFi.macAddress());
 	
 	InitESPNow();
-	
+
 	pinMode(LED_BUILTIN, OUTPUT);
 	pinMode(LED_BUILTIN_AUX, OUTPUT);
 	
-	pinMode(LEFT_MOTOR_PWM, OUTPUT);
-	pinMode(LEFT_MOTOR_DIR_A, OUTPUT);
-	pinMode(LEFT_MOTOR_DIR_B, OUTPUT);
+	pinMode(MOTOR_A_POS, OUTPUT);
+	pinMode(MOTOR_A_NEG, OUTPUT);
 	
-	pinMode(RIGHT_MOTOR_PWM, OUTPUT);
-	pinMode(RIGHT_MOTOR_DIR_A, OUTPUT);
-	pinMode(RIGHT_MOTOR_DIR_B, OUTPUT);
+	pinMode(MOTOR_B_POS, OUTPUT);
+	pinMode(MOTOR_B_NEG, OUTPUT);
 	
-	//pinMode(LIGHT_SENSOR, INPUT);
 	
 	Comms_Init();
 	
 }
 
-int pulseCounter = 0;
+uint8_t pulseCounter;
 void loop() {
 	
-	delay(50);
-	digitalWrite(LED_BUILTIN, ~LOW);
-	
-	if (pulseCounter == 0 || pulseCounter == 4) {
-		digitalWrite(LED_BUILTIN_AUX, !HIGH);
-		delay(2);
-		digitalWrite(LED_BUILTIN_AUX, !LOW);
-	}
-	if (pulseCounter == 0) {
-		
-		int batteryLevel = (analogRead(LIGHT_SENSOR) >> 2);
-		if (batteryLevel >= 255) {
-			batteryLevel = 255;
+	// Pulse the external LED
+	while (pulseLED > 0) {
+		pulseLED -= 1;
+		digitalWrite(LED_BUILTIN, HIGH);
+		delay(5);
+		digitalWrite(LED_BUILTIN, LOW);
+		if (pulseLED > 0) {
+			delay(5);
 		}
-		
-		//int test = analogRead(LIGHT_SENSOR) >> 3;
-		uint8_t command = 0x02;
-		uint8_t parameter = batteryLevel;
-		SendMessageESPNow(master_address, &command, &parameter, 1);
-		
 	}
 	
+	// LED Heartbeat
+	if (pulseCounter == 0 || pulseCounter == 40) {
+		digitalWrite(LED_BUILTIN_AUX, LOW);
+		delay(5);
+		digitalWrite(LED_BUILTIN_AUX, HIGH);
+		delay(5);
+	}
 	pulseCounter ++;
-	pulseCounter %= 16;
+	pulseCounter %= 160;
 	
+	// Read and recieve serial messages
+	ProcessSerialMessages();
 	
-	
-	
-	/*
-	Serial.print(">Battery_Voltage:");
-	Serial.print(batteryVoltage);
-	
-	Serial.print(",Target_Voltage:");
-	Serial.print(8.4);
-	
-	Serial.print(",Minimum_Voltage:");
-	Serial.println(6.4);
-	*/
-	if (ReadReadySerial() == true) {
-		
-		uint8_t *messageData = ReadMessageSerial();
-		if (messageData != NULL) {
-			SerialCallback(messageData);
-			free(messageData);
+	// Check if ESPNow messages are ready to be handled
+	for (int i = 0; i < ESPNOW_MESSAGE_QUEUE_LENGTH; i ++) {
+		if (espnowMessageLength[i] > 0) {
+			HandleMessage(espnowMessage[i], espnowMessageLength[i]);
+			free(espnowMessage[i]);
+			espnowMessageLength[i] = 0;
 		}
-		
-		
 	}
+	
+	delay(5);
 	
 }

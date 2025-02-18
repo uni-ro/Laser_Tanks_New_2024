@@ -7,58 +7,13 @@ uint8_t slave_address[] = {0x80, 0x7D, 0x3A, 0x23, 0x7F, 0x58};
 
 
 
-void HandleCommand(uint8_t command, uint8_t parameter) {
-	// Senders
-	// 0 - PC
-	// 1 - Master ESP
-	// 2 - Slave ESP
-	
-	if (command == 0x00) {
-		// Ping command
-		
-		if (parameter == 0) {
-			ReturnPingSerial(1);
-		}
-		else {
-			ReturnPingESPNow(slave_address, 1);
-		}
-		
-	}
-	
-}
 void ESPNowCallback(uint8_t *mac_addr, uint8_t *data, uint8_t length) {
 	
-	uint8_t *commandBuffer = UnpackCommandsESPNow(data, length);
-	uint8_t *parameterBuffer = UnpackParametersESPNow(data, length);
-	
-	for (uint8_t i = 0; i < length / 2; i ++) {
-		HandleCommand(commandBuffer[i], parameterBuffer[i]);
+	Serial.write(0xFF);
+	for (int i = 0; i < length; i ++) {
+		Serial.write(data[i]);
 	}
-	// Relay the message
-	SendMessageSerial(commandBuffer, parameterBuffer, length / 2);
-	
-	free(commandBuffer);
-	free(parameterBuffer);
-	
-}
-void SerialCallback(uint8_t *messageData) {
-	
-	uint8_t numCommands = UnpackNumCommandsSerial(messageData);
-	uint8_t *commandBuffer = UnpackCommandsSerial(messageData);
-	uint8_t *parameterBuffer = UnpackParametersSerial(messageData);
-
-	for (uint8_t i = 0; i < numCommands; i ++) {
-		HandleCommand(commandBuffer[i], parameterBuffer[i]);
-	}
-	SendMessageESPNow(slave_address, commandBuffer, parameterBuffer, numCommands);
-	
-	free(commandBuffer);
-	free(parameterBuffer);
-	
-	digitalWrite(LED_BUILTIN, !HIGH);
-	delay(2);
-	digitalWrite(LED_BUILTIN, !LOW);
-	
+	Serial.write(0xFE);
 	
 }
 
@@ -104,23 +59,36 @@ void setup() {
 }
 
 
-
+uint8_t serialMessage[255];
+uint8_t serialLength;
 void loop() {
 	
 
 	delay(50);
 	digitalWrite(LED_BUILTIN, !LOW);
 	
-	if (ReadReadySerial() == true) {
+	
+	while (Serial.available() > 0) {
+		uint8_t currentByte = Serial.read();
 		
-		uint8_t *messageData = ReadMessageSerial();
-		if (messageData != NULL) {
-			SerialCallback(messageData);
-			free(messageData);
+		// Start byte
+		if (currentByte == 0xFF) {
+			serialLength = 0;
+			continue;
 		}
 		
+		// End byte
+		if (currentByte == 0xFE) {
+			esp_now_send(slave_address, serialMessage, serialLength);
+			digitalWrite(LED_BUILTIN, !HIGH);
+			delay(5);
+			digitalWrite(LED_BUILTIN, !LOW);
+			continue;
+		}
+		
+		serialMessage[serialLength] = currentByte;
+		serialLength ++;
 		
 	}
-	
 	
 }

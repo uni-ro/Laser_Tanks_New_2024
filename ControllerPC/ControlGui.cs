@@ -32,18 +32,6 @@ namespace ControllerPC {
 
 			ImGui.BeginDisabled(Comms.serialPort.IsOpen == false);
 
-			ImGui.Text("Debug CMD PAR pair");
-			ImGui.InputInt2("(CMD, PAR)", ref sp.testCommand);
-			ImGui.SameLine();
-			if (ImGui.Button("Send") == true) {
-
-				byte[] commandBuffer = new byte[] { (byte)sp.testCommand };
-				byte[] parameterBuffer = new byte[] { (byte)sp.testParameter };
-				Comms.SendMessage(commandBuffer, parameterBuffer);
-
-			}
-
-			ImGui.NewLine();
 			ImGui.Text("Builtin commands");
 			if (ImGui.Button("Ping") == true) {
 				Comms.Ping();
@@ -120,30 +108,30 @@ namespace ControllerPC {
 
 				if (changed == true) {
 
-					byte leftSpeed = (byte)(Math.Abs(leftMotorSpeed) * 255);
-					byte leftDirection = (byte)(leftMotorSpeed > 0 ? 1 : 0);
+					int leftSpeed = (int)Math.Abs(leftMotorSpeed * 255);
+					int leftDirection = Math.Sign(leftMotorSpeed);
 
-					byte rightSpeed = (byte)(Math.Abs(rightMotorSpeed) * 255);
-					byte rightDirection = (byte)(rightMotorSpeed > 0 ? 1 : 0);
+					int rightSpeed = (int)Math.Abs(rightMotorSpeed * 255);
+					int rightDirection = Math.Sign(rightMotorSpeed);
 
 					Comms.SendMotor(leftSpeed, leftDirection, rightSpeed, rightDirection);
-
 				}
+
 
 				
 
 			}
 			if (sendLeftMotorSpeed == true) {
 
-				byte speed = (byte)(Math.Abs(leftMotorSpeed) * 255);
-				byte direction = (byte)(leftMotorSpeed > 0 ? 1 : 0);
+				int speed = (int)Math.Abs(leftMotorSpeed * 255);
+				int direction = Math.Sign(leftMotorSpeed);
 				sendLeftMotorSpeed &= !Comms.SendLeftMotor(speed, direction);
 
 			}
 			if (sendRightMotorSpeed == true) {
 
-				byte speed = (byte)(Math.Abs(rightMotorSpeed) * 255);
-				byte direction = (byte)(rightMotorSpeed > 0 ? 1 : 0);
+				int speed = (int)Math.Abs(rightMotorSpeed * 255);
+				int direction = Math.Sign(rightMotorSpeed);
 				sendRightMotorSpeed &= !Comms.SendRightMotor(speed, direction);
 
 			}
