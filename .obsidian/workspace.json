@@ -20,18 +20,21 @@
             }
           },
           {
-            "id": "54221bdb5381db5f",
+            "id": "6fd58b66d6d04512",
             "type": "leaf",
             "state": {
-              "type": "excalidraw",
+              "type": "markdown",
               "state": {
-                "file": "Tank Motherboard/Tank Motherboard V2.excalidraw.md"
+                "file": "Laser Tanks.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "excalidraw-icon",
-              "title": "Tank Motherboard V2.excalidraw"
+              "icon": "lucide-file",
+              "title": "Laser Tanks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -174,8 +177,15 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "53610b00af860c79",
+  "active": "6fd58b66d6d04512",
   "lastOpenFiles": [
+    "Tank CAD Model/CAD Model.md",
+    "Tank Motherboard/Tank Motherboard.md",
+    "Laser Tanks.md",
+    "ControllerPC/ControllerPC.md",
+    "Build Night logs/Build Night - 6th March 2025.md",
+    "Tank Motherboard/Tank Motherboard V2.excalidraw.md",
+    "Build Night logs",
     "O-Day/O-Day instructions.txt",
     "O-Day/Circuit board layout.png",
     "O-Day",
@@ -187,14 +197,10 @@
     "New Text Document.txt",
     "Tank CAD Model/Tank model V3.md",
     "Tank CAD Model/Tank model V2.md",
-    "Tank Motherboard/Tank Motherboard V2.excalidraw.md",
     "Tank Source/Communication.md",
     "ControllerPC/tum3y11y.eta~",
     "ControllerPC/dvm5ales.km1~",
     "ControllerPC/wk4qnbno.hm4~",
-    "ControllerPC/wnsktypt.c1f~",
-    "ControllerPC/ykv43oxk.djd~",
-    "Tank CAD Model/CAD Model.md",
     "Excalidraw/Drawing 2025-02-11 03.42.49.excalidraw.md",
     "Tank Motherboard/Tank Motherboard V1.jpg",
     "Excalidraw/Scripts/Downloaded/Palette loader.svg",
@@ -206,7 +212,6 @@
     "Tank CAD Model/Tank model V4/non bendy back.jpg",
     "Tank CAD Model/Tank model V4/bendy back.jpg",
     "Note templates/Tank model template.md",
-    "README.md",
     "Welcome.md"
   ]
 }

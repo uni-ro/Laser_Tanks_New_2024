@@ -12,17 +12,6 @@ const int XR = 26;
 const int YR = 25;
 
 
-int customMap(int value, int fromLow, int center, int fromHigh, int toLow, int centerOutput, int toHigh)
-{
-  if (value < center) {
-    // Map from the lower range
-    return map(value, fromLow, center, toLow, centerOutput);
-  } else {
-    // Map from the upper range
-    return map(value, center, fromHigh, centerOutput, toHigh);
-  }
-}
-
 void InitESPNow() {
 	
 	WiFi.disconnect();
