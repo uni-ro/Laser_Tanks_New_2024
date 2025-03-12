@@ -5,11 +5,9 @@
 
 uint8_t slave_address[] = {0x80, 0x7D, 0x3A, 0x23, 0x7F, 0x58};
 
-const int XL = 14;
-const int YL = 27;
+const int XL = 32;
 
-const int XR = 26;
-const int YR = 25;
+const int XR = 33;
 
 
 void InitESPNow() {
@@ -25,7 +23,11 @@ void InitESPNow() {
 	memcpy(info.peer_addr, slave_address, 6);
 	esp_now_add_peer(&info);
 	
+
+
 }
+
+
 
 void setup() 
 {
@@ -48,22 +50,53 @@ void loop()
   // put your main code here, to run repeatedly:
 
   
-  uint8_t data[] = {0x00, 0x00};
-  esp_now_send(slave_address, data, 2);
   
   uint16_t adc_valXL = analogRead(XL);
-  uint16_t adc_valYL = analogRead(YL);
-  
   uint16_t adc_valXR = analogRead(XR);
-  uint16_t adc_valYR = analogRead(YR);
+
+  uint8_t sendXL;
+  uint8_t sendXR;
+
+  if( adc_valXL < 1800 )
+  {
+    sendXL = 0x3F;
+  }
+  else if( adc_valXL > 2200 )
+  {
+    sendXL = 0x7F;
+  }
+  else
+  {
+    sendXL = 0;
+  }
+
+  if( adc_valXR < 1800 )
+  {
+    sendXR = 0x3F;
+  }
+  else if( adc_valXR > 2200 )
+  {
+    sendXR = 0x7F;
+  }
+  else
+  {
+    sendXR = 0;
+  }
+
+  uint8_t leftmotor[] = {0x01, sendXL};
+  uint8_t rightmotor[] = {0x02, sendXR};
   
+  esp_now_send(slave_address, leftmotor, 2);
+  esp_now_send(slave_address, rightmotor, 2);
   char printStr[255];
   
-  sprintf(printStr, "(%04D, %04D) ", adc_valXL, adc_valYL);
+  sprintf(printStr, "(%04D, %04D) ", adc_valXL, adc_valXR);
   Serial.print(printStr);
-  
-  sprintf(printStr, "(%04D, %04D)", adc_valXR, adc_valYR);
-  Serial.println(printStr);
+  Serial.println();
+
+  sprintf(printStr, "(%04X, %04X) ", sendXL, sendXR);
+  Serial.print(printStr);
+  Serial.println();
   
 
   delay(50);
