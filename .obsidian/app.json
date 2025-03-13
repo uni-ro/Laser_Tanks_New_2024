@@ -1,5 +1,6 @@
 {
   "livePreview": true,
   "defaultViewMode": "preview",
-  "readableLineLength": false
+  "readableLineLength": true,
+  "autoPairMarkdown": true
 }

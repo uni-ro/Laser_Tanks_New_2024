@@ -42,5 +42,5 @@ This table does not include everything. For example the breadboard, and wires an
 
 ## Issues
 
-- One of the clips that hold the protoboard is broken
-- ![[broken clip.jpg|1400]]
+- One of the clips that hold the protoboard is broken 
+- ![[broken clip.jpg|800]]

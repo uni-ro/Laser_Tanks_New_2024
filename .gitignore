@@ -409,3 +409,8 @@ obj/
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/ipch
+
+# Obsidian stuff
+.obsidian/plugins/
+.obsidian/themes/
+.obsidian/workspace.json
