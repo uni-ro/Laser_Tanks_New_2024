@@ -1,4 +1,8 @@
-This is the folder that contains the files needed to 3D print the Laser Tank. The files were created using Fusion360.
+## Summary
+This is where all the different versions of the tank 3D model are stored.
+Each different version was 3D printed, tested and then improved upon.
+This is the current version
+![[Tank model V4#Overview]]
 
 ## Versions
 

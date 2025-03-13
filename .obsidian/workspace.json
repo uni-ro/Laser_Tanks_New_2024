@@ -8,29 +8,31 @@
         "type": "tabs",
         "children": [
           {
-            "id": "53610b00af860c79",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "Tank Motherboard/Tank Motherboard V2.excalidraw.md"
-              },
-              "icon": "excalidraw-icon",
-              "title": "Tank Motherboard V2.excalidraw"
-            }
-          },
-          {
             "id": "6fd58b66d6d04512",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Laser Tanks.md",
+                "file": "Code/Tank Source.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Laser Tanks"
+              "title": "Tank Source"
+            }
+          },
+          {
+            "id": "7f80629a9c9f3cff",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Build Night logs/Build Night - 13th March 2025.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Build Night - 13th March 2025"
             }
           }
         ],
@@ -177,40 +179,46 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "6fd58b66d6d04512",
+  "active": "7f80629a9c9f3cff",
   "lastOpenFiles": [
-    "Tank CAD Model/CAD Model.md",
-    "Tank Motherboard/Tank Motherboard.md",
-    "Laser Tanks.md",
-    "ControllerPC/ControllerPC.md",
     "Build Night logs/Build Night - 6th March 2025.md",
+    "Build Night logs/Build Night - 13th March 2025.md",
+    "Code/Tank Source.md",
+    "README.md",
+    "Tank CAD Model/CAD Model.md",
+    "Code/Communication.md",
+    "Code/How to use ESPNOW.md",
+    "Code/How to write and upload code.md",
+    "Pasted image 20250313134834.png",
+    "Attachments/Pasted image 20250313174403.png",
+    "Attachments/Pasted image 20250313174216.png",
+    "Attachments/Pasted image 20250313174137.png",
+    "Attachments/Pasted image 20250313164116.png",
+    "Attachments/Pasted image 20250313134834.png",
+    "Attachments",
+    "Pasted image 20250313174403.png",
+    "Pasted image 20250313174216.png",
+    "Pasted image 20250313174137.png",
+    "Pasted image 20250313164116.png",
+    "How to use ESPNOW.md",
+    "Tank Source/src/ESP_NOW_Game_Server/main.cpp",
+    "Tank Source/src/ESP_NOW_Game_Server",
+    "Links.txt",
+    "Laser Tanks.md",
+    "Tank Motherboard/Tank Motherboard.md",
+    "ControllerPC/ControllerPC.md",
     "Tank Motherboard/Tank Motherboard V2.excalidraw.md",
     "Build Night logs",
     "O-Day/O-Day instructions.txt",
-    "O-Day/Circuit board layout.png",
     "O-Day",
     "New folder",
     "O-Day instructions.txt",
-    "Circuit board layout.png",
-    "Tank CAD Model/Tank model V4.md",
+    "Tank CAD Model/Tank model V4/Tank model V4.md",
     "Stuff to remember.txt",
-    "New Text Document.txt",
-    "Tank CAD Model/Tank model V3.md",
-    "Tank CAD Model/Tank model V2.md",
-    "Tank Source/Communication.md",
-    "ControllerPC/tum3y11y.eta~",
-    "ControllerPC/dvm5ales.km1~",
-    "ControllerPC/wk4qnbno.hm4~",
+    "Tank CAD Model/Tank model V3/Tank model V3.md",
+    "Tank CAD Model/Tank model V2/Tank model V2.md",
     "Excalidraw/Drawing 2025-02-11 03.42.49.excalidraw.md",
-    "Tank Motherboard/Tank Motherboard V1.jpg",
-    "Excalidraw/Scripts/Downloaded/Palette loader.svg",
     "Excalidraw/Scripts/Downloaded/Palette loader.md",
-    "Tank CAD Model/Tank model V4/broken clip.jpg",
-    "Tank CAD Model/Tank model V4/proto board 2.jpg",
-    "Tank CAD Model/Tank model V4/proto board 1.jpg",
-    "Tank CAD Model/Tank model V4/switch holder.jpg",
-    "Tank CAD Model/Tank model V4/non bendy back.jpg",
-    "Tank CAD Model/Tank model V4/bendy back.jpg",
     "Note templates/Tank model template.md",
     "Welcome.md"
   ]
