@@ -20,11 +20,11 @@ ESPNow handles the protocol for you, as such a start byte and end byte is not in
 ## Messages
 Here is a list of all the message types and how to use them
 
-|First byte|Message type|
-|---|---|
-|0x00|Ping|
-|0x01|Left motor speed|
-|0x02|Right motor speed|
+| First byte | Message type      |
+| ---------- | ----------------- |
+| 0x00       | Ping              |
+| 0x01       | Left motor speed  |
+| 0x02       | Right motor speed |
 
 ### Ping - 0x00
 The ping message is used to check if the controller is communicating with the tank, or if the tank is communicating with the controller. 
@@ -37,15 +37,15 @@ The ping message is used to check if the controller is communicating with the ta
 ### Left motor speed - 0x01
 This message is used to tell the tank to set the left motor to a specific speed
 
-|Byte number|Options|Description|
-|---|---|---|
-|0|0x01|Signifies the message type is setting the left motor speed|
-|1|0x00 - 0x3F, 0x40 - 0x7F|Speed and direction of the motor. Forward between 0x00 - 0x3F where 0x00 is slowest and 0x3F is fastest. Backward between 0x40 - 0x7F where 0x40 is slowest and 0x7F is fastest|
+| Byte number | Options                  | Description                                                                                                                                                                     |
+| ----------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0           | 0x01                     | Signifies the message type is setting the left motor speed                                                                                                                      |
+| 1           | 0x00 - 0x3F, 0x40 - 0x7F | Speed and direction of the motor. Forward between 0x00 - 0x3F where 0x00 is slowest and 0x3F is fastest. Backward between 0x40 - 0x7F where 0x40 is slowest and 0x7F is fastest |
 
 ### Right motor speed - 0x02
 This message is used to tell the tank to set the right motor to a specific speed
 
-|Byte number|Options|Description|
-|---|---|---|
-|0|0x02|Signifies the message type is setting the right motor speed|
-|1|0x00 - 0x3F, 0x40 - 0x7F|Speed and direction of the motor. Forward between 0x00 - 0x3F where 0x00 is slowest and 0x3F is fastest. Backward between 0x40 - 0x7F where 0x40 is slowest and 0x7F is fastest|
+| Byte number | Options                  | Description                                                                                                                                                                     |
+| ----------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0           | 0x02                     | Signifies the message type is setting the right motor speed                                                                                                                     |
+| 1           | 0x00 - 0x3F, 0x40 - 0x7F | Speed and direction of the motor. Forward between 0x00 - 0x3F where 0x00 is slowest and 0x3F is fastest. Backward between 0x40 - 0x7F where 0x40 is slowest and 0x7F is fastest |

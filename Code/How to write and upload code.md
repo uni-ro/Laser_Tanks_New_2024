@@ -57,3 +57,7 @@ Now we are ready to upload the code to the microcontroller. First go to the plat
 ![[Pasted image 20250313174216.png]]
 Then, expand the option with the same name that you put in the ```[env:Whatever]``` and click Upload.
 ![[Pasted image 20250313174403.png]]
+
+## Troubleshooting
+### Board is not detected
+If you're computer is not detecting the microcontroller

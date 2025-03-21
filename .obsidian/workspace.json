@@ -1,0 +1,287 @@
+{
+  "main": {
+    "id": "c529573753afe4b0",
+    "type": "split",
+    "children": [
+      {
+        "id": "9473d0461066cab1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6fd58b66d6d04512",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Code/Tank Source.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Tank Source"
+            }
+          },
+          {
+            "id": "7f80629a9c9f3cff",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Code/How to write and upload code.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "How to write and upload code"
+            }
+          },
+          {
+            "id": "c3fb191b91174ca6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Build Night - 20th March 2025.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Build Night - 20th March 2025"
+            }
+          },
+          {
+            "id": "18f44adf3935d251",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Code/How to use ESPNOW.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "How to use ESPNOW"
+            }
+          },
+          {
+            "id": "122b88f6389b6b72",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Code/How to write and upload code.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "How to write and upload code"
+            }
+          },
+          {
+            "id": "35d86826430836ce",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "Excalidraw/Drawing 2025-03-20 19.50.58.excalidraw.md"
+              },
+              "icon": "excalidraw-icon",
+              "title": "Drawing 2025-03-20 19.50.58.excalidraw"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "c44edae96d07a5cb",
+    "type": "split",
+    "children": [
+      {
+        "id": "d44350246e953473",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cc5bc0d622f610ae",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "5ce27cd4507fda80",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "7ca6fd0b51a03b31",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "98531ab7290a8d07",
+    "type": "split",
+    "children": [
+      {
+        "id": "adb1465d454b8abb",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "16bc0dbe86e341fa",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Excalidraw/Drawing 2025-03-20 19.01.04.excalidraw.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Drawing 2025-03-20 19.01.04.excalidraw"
+            }
+          },
+          {
+            "id": "8b0150e08cf00570",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Welcome.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Welcome"
+            }
+          },
+          {
+            "id": "3ee133444288fa54",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "24aec5b5a452573a",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Excalidraw/Drawing 2025-03-20 19.01.04.excalidraw.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Drawing 2025-03-20 19.01.04.excalidraw"
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "obsidian-excalidraw-plugin:New drawing": false
+    }
+  },
+  "active": "c3fb191b91174ca6",
+  "lastOpenFiles": [
+    "Code/How to write and upload code.md",
+    "Build Night - 20th March 2025.md",
+    "Code/Communication.md",
+    "Excalidraw/Drawing 2025-03-20 19.50.58.excalidraw.md",
+    "Excalidraw/Drawing 2025-03-20 19.10.20.excalidraw.md",
+    "Code/src/tank_comms.h",
+    "Code/lib/tank_comms.h",
+    "Code/src/tank_comms.cpp",
+    "Code/src/tank_comms",
+    "Code/src/Tank/tank.cpp",
+    "Code/src/Tank/controller.cpp",
+    "Code/src/Tank/comms.cpp",
+    "Code/src/Tank",
+    "Code/How to use ESPNOW.md",
+    "Code/Tank Source.md",
+    "Excalidraw/Drawing 2025-03-20 19.01.04.excalidraw.md",
+    "Tank Motherboard/Tank Motherboard V3/Laser Tanks Tank Motherboard.eprj-journal",
+    "Build Night logs/Build Night - 13th March 2025.md",
+    "Build Night logs/Build Night - 6th March 2025.md",
+    "README.md",
+    "Tank CAD Model/CAD Model.md",
+    "Pasted image 20250313134834.png",
+    "Attachments/Pasted image 20250313174403.png",
+    "Attachments/Pasted image 20250313174216.png",
+    "Attachments/Pasted image 20250313174137.png",
+    "Attachments/Pasted image 20250313164116.png",
+    "Attachments/Pasted image 20250313134834.png",
+    "Attachments",
+    "Pasted image 20250313174403.png",
+    "Pasted image 20250313174216.png",
+    "Pasted image 20250313174137.png",
+    "Pasted image 20250313164116.png",
+    "How to use ESPNOW.md",
+    "Laser Tanks.md",
+    "Tank Motherboard/Tank Motherboard.md",
+    "ControllerPC/ControllerPC.md",
+    "Tank Motherboard/Tank Motherboard V2.excalidraw.md",
+    "Tank CAD Model/Tank model V4/Tank model V4.md",
+    "Tank CAD Model/Tank model V3/Tank model V3.md",
+    "Tank CAD Model/Tank model V2/Tank model V2.md",
+    "Excalidraw/Drawing 2025-02-11 03.42.49.excalidraw.md",
+    "Excalidraw/Scripts/Downloaded/Palette loader.md",
+    "Note templates/Tank model template.md",
+    "Welcome.md"
+  ]
+}
