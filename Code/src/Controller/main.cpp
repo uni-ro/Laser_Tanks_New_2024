@@ -14,11 +14,10 @@ const int Y = 32;
 const int n = 2048;
 
 
-void setup() 
-{
+void setup() {
   //put your setup code here, to run once:
   Serial.begin(9600);
-  TankCommsInit(slave_address);
+  TankComm sInit(slave_address);
 
 
 }
