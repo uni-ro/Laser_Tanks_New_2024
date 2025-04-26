@@ -1,0 +1,3 @@
+- Tom is helping Blake learn to program on an arduino nano. Trying to blink a laser diode
+- Got Thomas started on the turret for the tank. Invited him to the Fusion360 group.
+- Emma and Gabriel are mucking around with the raspberry pi. 

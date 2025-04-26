@@ -25,18 +25,20 @@ void SetLeftMotorSpeed(int8_t speed) {
 	uint8_t absolute_speed = abs(speed) << 1;
 	
 	if (speed == 0) {
-		digitalWrite(MOTOR_A_POS, 0);
-		digitalWrite(MOTOR_A_NEG, 0);
+		digitalWrite(MOTOR_A_POS, HIGH);
+		digitalWrite(MOTOR_A_NEG, HIGH);
 	}
 	
 	if (speed < 0) {
-		digitalWrite(MOTOR_A_NEG, 0);
-		analogWrite(MOTOR_A_POS, absolute_speed);
+		digitalWrite(MOTOR_A_NEG, HIGH);
+		digitalWrite(MOTOR_A_POS, LOW);
+		//analogWrite(MOTOR_A_POS, 255 - absolute_speed);
 		return;
 	}
 	if (speed > 0) {
-		digitalWrite(MOTOR_A_POS, 0);
-		analogWrite(MOTOR_A_NEG, absolute_speed);
+		digitalWrite(MOTOR_A_POS, HIGH);
+		digitalWrite(MOTOR_A_NEG, LOW);
+		//analogWrite(MOTOR_A_NEG, 255 - absolute_speed);
 		return;
 	}
 	
@@ -49,18 +51,20 @@ void SetRightMotorSpeed(int8_t speed) {
 	uint8_t absolute_speed = abs(speed) << 1;
 	
 	if (speed == 0) {
-		digitalWrite(MOTOR_B_POS, 0);
-		digitalWrite(MOTOR_B_NEG, 0);
+		digitalWrite(MOTOR_B_POS, HIGH);
+		digitalWrite(MOTOR_B_NEG, HIGH);
 	}
 	
 	if (speed < 0) {
-		digitalWrite(MOTOR_B_NEG, 0);
-		analogWrite(MOTOR_B_POS, absolute_speed);
+		digitalWrite(MOTOR_B_NEG, HIGH);
+		digitalWrite(MOTOR_B_POS, LOW);
+		//analogWrite(MOTOR_B_POS, 255 - absolute_speed);
 		return;
 	}
 	if (speed > 0) {
-		digitalWrite(MOTOR_B_POS, 0);
-		analogWrite(MOTOR_B_NEG, absolute_speed);
+		digitalWrite(MOTOR_B_POS, HIGH);
+		digitalWrite(MOTOR_B_NEG, LOW);
+		//analogWrite(MOTOR_B_NEG, 255 - absolute_speed);
 		return;
 	}
 	
@@ -240,11 +244,20 @@ void setup() {
 		Buzz(duration, tune[i]);
 	}
 	
+	
 	analogWriteFreq(25000);
+	
+	SetLeftMotorSpeed(0);
+	SetRightMotorSpeed(0);
 	
 	
 }
 void loop() {
+	
+	digitalWrite(MOTOR_A_POS, HIGH);
+	digitalWrite(MOTOR_A_NEG, HIGH);
+	digitalWrite(MOTOR_B_POS, HIGH);
+	digitalWrite(MOTOR_B_NEG, HIGH);
 	
 	// Turn the builtin led on and off
 	if (espnow_led_timeout > 0) {
