@@ -1,10 +1,9 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <espnow.h>
-#include "ESP_NOW_Daniel/comms.h"
+#include <pwm.h>
 
-uint8_t master_address[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-int pulseLED = 0; // When true, the builtin LED will be pulsed during the next loop
+uint8_t controller_address[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
 #define MOTOR_A_POS 12
 #define MOTOR_A_NEG 0
@@ -12,67 +11,69 @@ int pulseLED = 0; // When true, the builtin LED will be pulsed during the next l
 #define MOTOR_B_POS 4
 #define MOTOR_B_NEG 14
 
-void SendMessage(uint8_t* message, uint8_t length) {
+// When an espnow message is recieved, the timeout is set to 15
+// When > 0, the espnow_led is on
+// When = 0, the espnow_led is off
+// Decrements every loop
+uint8_t espnow_led_timeout = 0;
+#define ESPNOW_LED_TIMEOUT_TIME 30
+
+// speed: [-127, 127] (Fastest going backwards, Fastest going forwards)
+void SetLeftMotorSpeed(int8_t speed) {
 	
-	Serial.write(0xFF);
-	for (int i = 0; i < length; i ++) {
-		Serial.write(message[i]);
-	}
-	Serial.write(0xFE);
-	
-}
-void SetLeftMotorSpeed(uint8_t speed, uint8_t direction) {
-	
-	if (speed == 0) {
-		digitalWrite(MOTOR_A_POS, 0);
-		digitalWrite(MOTOR_A_NEG, 0);
-	}
-	
-	if (direction == 1) {
-		digitalWrite(MOTOR_A_NEG, 0);
-		analogWrite(MOTOR_A_POS, speed);
-		return;
-	}
-	if (direction == 0) {
-		digitalWrite(MOTOR_A_POS, 0);
-		analogWrite(MOTOR_A_NEG, speed);
-		return;
-	}
-	
-	
-	
-}
-void SetRightMotorSpeed(uint8_t speed, uint8_t direction) {
+	// Ranges between [0, 255]
+	uint8_t absolute_speed = abs(speed) << 1;
 	
 	if (speed == 0) {
-		digitalWrite(MOTOR_B_POS, 0);
-		digitalWrite(MOTOR_B_NEG, 0);
+		digitalWrite(MOTOR_A_POS, HIGH);
+		digitalWrite(MOTOR_A_NEG, HIGH);
+	}
+	
+	if (speed < 0) {
+		digitalWrite(MOTOR_A_NEG, HIGH);
+		digitalWrite(MOTOR_A_POS, LOW);
+		//analogWrite(MOTOR_A_POS, 255 - absolute_speed);
+		return;
+	}
+	if (speed > 0) {
+		digitalWrite(MOTOR_A_POS, HIGH);
+		digitalWrite(MOTOR_A_NEG, LOW);
+		//analogWrite(MOTOR_A_NEG, 255 - absolute_speed);
 		return;
 	}
 	
-	if (direction == 1) {
-		digitalWrite(MOTOR_B_NEG, 0);
-		analogWrite(MOTOR_B_POS, speed);
+	
+	
+}
+void SetRightMotorSpeed(int8_t speed) {
+	
+	// Ranges between [0, 255]
+	uint8_t absolute_speed = abs(speed) << 1;
+	
+	if (speed == 0) {
+		digitalWrite(MOTOR_B_POS, HIGH);
+		digitalWrite(MOTOR_B_NEG, HIGH);
+	}
+	
+	if (speed < 0) {
+		digitalWrite(MOTOR_B_NEG, HIGH);
+		digitalWrite(MOTOR_B_POS, LOW);
+		//analogWrite(MOTOR_B_POS, 255 - absolute_speed);
 		return;
 	}
-	if (direction == 0) {
-		digitalWrite(MOTOR_B_POS, 0);
-		analogWrite(MOTOR_B_NEG, speed);
+	if (speed > 0) {
+		digitalWrite(MOTOR_B_POS, HIGH);
+		digitalWrite(MOTOR_B_NEG, LOW);
+		//analogWrite(MOTOR_B_NEG, 255 - absolute_speed);
 		return;
 	}
 	
-	
-	
-	
+
 }
 
 void HandleMessage(uint8_t* message, uint8_t length) {
 	
-	pulseLED += 1;
-	
 	if (length == 0) { return; }
-	
-	
 	
 	// Ping command
 	if (message[0] == 0x00) {
@@ -81,7 +82,7 @@ void HandleMessage(uint8_t* message, uint8_t length) {
 		if (message[1] == 0x00) {
 			Serial.println("Ping recieved");
 			uint8_t message[] = {0x00, 0x01};
-			SendMessage(message, 2);
+			//SendMessage(message, 2);
 		}
 		
 	}
@@ -90,16 +91,18 @@ void HandleMessage(uint8_t* message, uint8_t length) {
 	if (message[0] == 0x01) {
 		if (length != 2) { return; }
 		
-		uint8_t motorSpeed = message[1] % 0x40;
-		motorSpeed = motorSpeed << 2;
+		int8_t motorSpeed = (message[1] % 0x40) << 1;
 		uint8_t direction = (message[1] >> 6) & 0b1;
+		if (direction == 1) {
+			motorSpeed *= -1;
+		}
 		
 		Serial.print("Motor_L: ");
 		if (direction == 1) { Serial.print("-"); }
 		else { Serial.print("+"); }
 		Serial.println(motorSpeed);
 		
-		SetLeftMotorSpeed(motorSpeed, direction);
+		SetLeftMotorSpeed(motorSpeed);
 
 	}
 	
@@ -107,16 +110,18 @@ void HandleMessage(uint8_t* message, uint8_t length) {
 	if (message[0] == 0x02) {
 		if (length != 2) { return; }
 		
-		uint8_t motorSpeed = message[1] % 0x40;
-		motorSpeed = motorSpeed << 2;
+		int8_t motorSpeed = (message[1] % 0x40) << 1;
 		uint8_t direction = (message[1] >> 6) & 0b1;
+		if (direction == 1) {
+			motorSpeed *= -1;
+		}
 		
 		Serial.print("Motor_R: ");
 		if (direction == 1) { Serial.print("-"); }
 		else { Serial.print("+"); }
 		Serial.println(motorSpeed);
 		
-		SetRightMotorSpeed(motorSpeed, direction);
+		SetRightMotorSpeed(motorSpeed);
 
 	}
 	
@@ -157,6 +162,8 @@ uint8_t* espnowMessage[ESPNOW_MESSAGE_QUEUE_LENGTH];
 uint8_t espnowMessageLength[ESPNOW_MESSAGE_QUEUE_LENGTH];
 void ESPNowCallback(uint8_t *mac_addr, uint8_t *data, uint8_t length) {
 	
+	espnow_led_timeout = ESPNOW_LED_TIMEOUT_TIME;
+	
 	uint8_t* espnowData = (uint8_t*)malloc(sizeof(uint8_t) * length);
 	memcpy(espnowData, data, length);
 	
@@ -173,15 +180,7 @@ void InitESPNow() {
 	
 	WiFi.disconnect();
 	WiFi.mode(WIFI_STA);
-	if (esp_now_init() == 0) {
-		//Serial.println("Success initialising ESPNow");
-	}
-	else {
-		Serial.println("Failed to initialise ESPNow");
-		Serial.println("Retrying in 3 seconds");
-		delay(3000);
-		InitESPNow();
-	}
+	esp_now_init();
 	
 	// ESPNow has initialised successfully here
 	esp_now_set_self_role(ESP_NOW_ROLE_SLAVE);
@@ -189,6 +188,22 @@ void InitESPNow() {
 	
 	
 }
+
+uint8_t pulseCounter = 0;
+void Buzz(int duration, int semitone) {
+	
+	int freq = 440 * pow(1.05946, semitone);
+	
+	analogWriteFreq(freq);
+	SetRightMotorSpeed(20);
+	SetLeftMotorSpeed(-20);
+	delay(duration);
+	SetRightMotorSpeed(0);
+	SetLeftMotorSpeed(0);
+	//delay(duration >> 1);
+}
+
+
 
 void setup() {
 	
@@ -211,22 +226,46 @@ void setup() {
 	pinMode(MOTOR_B_NEG, OUTPUT);
 	
 	
-	Comms_Init();
+	int duration = 30;
+	int tune[] = {-5, 0, 4, 7, 12, -50, -5, 0, 4, 7, 12, -50, -5, 0, 4, 7, 12};
+	int length = 17;
+
+	
+	//int duration = 120;
+	//int tune[] = {2, 2, 14, -50, 9, -50, -50, 8, -50, 7, -50, 5, -50, 2, 5, 7};
+	//int length = 16;
+	
+	
+	for (int i = 0; i < length; i ++) {
+		if (tune[i] == -50) {
+			delay(duration);
+			continue;
+		}
+		Buzz(duration, tune[i]);
+	}
+	
+	
+	analogWriteFreq(25000);
+	
+	SetLeftMotorSpeed(0);
+	SetRightMotorSpeed(0);
+	
 	
 }
-
-uint8_t pulseCounter;
 void loop() {
 	
-	// Pulse the external LED
-	while (pulseLED > 0) {
-		pulseLED -= 1;
+	digitalWrite(MOTOR_A_POS, HIGH);
+	digitalWrite(MOTOR_A_NEG, HIGH);
+	digitalWrite(MOTOR_B_POS, HIGH);
+	digitalWrite(MOTOR_B_NEG, HIGH);
+	
+	// Turn the builtin led on and off
+	if (espnow_led_timeout > 0) {
 		digitalWrite(LED_BUILTIN, HIGH);
-		delay(5);
+		espnow_led_timeout -= 1;
+	}
+	else {
 		digitalWrite(LED_BUILTIN, LOW);
-		if (pulseLED > 0) {
-			delay(5);
-		}
 	}
 	
 	// LED Heartbeat

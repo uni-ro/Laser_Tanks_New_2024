@@ -1,0 +1,2 @@
+- Blake and Tom working on ramping up motor
+- Emma is workign on stopping the tank if the controller disconnects

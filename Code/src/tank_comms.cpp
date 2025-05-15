@@ -14,7 +14,6 @@ void TankCommsInit(uint8_t* tank_address) {
 
     WiFi.disconnect();
     WiFi.mode(WIFI_STA);
-
     esp_now_init();
 
     esp_now_peer_info_t info;

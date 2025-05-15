@@ -41,12 +41,24 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Build Night - 20th March 2025.md",
+                "file": "Build Night logs/Build Night - 27th March 2025.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Build Night - 20th March 2025"
+              "title": "Build Night - 27th March 2025"
+            }
+          },
+          {
+            "id": "46e498724c13ce5b",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "Tank Motherboard/Tank Motherboard V2.excalidraw.md"
+              },
+              "icon": "excalidraw-icon",
+              "title": "Tank Motherboard V2.excalidraw"
             }
           },
           {
@@ -90,7 +102,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -237,8 +249,18 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "c3fb191b91174ca6",
+  "active": "31943a9f6a81191c",
   "lastOpenFiles": [
+    "Tank Motherboard/Tank Motherboard V2.excalidraw.md",
+    "Tank Motherboard/Tank Motherboard V3/Laser Tanks Tank Motherboard_backup/Laser Tanks Tank Motherboard_v245_2025-04-17-19-41.zip",
+    "Tank Motherboard/Tank Motherboard V3.md",
+    "Tank Motherboard/Tank Motherboard V1.jpg",
+    "Build Night logs/Build Night - 27th March 2025.md",
+    "Tank Motherboard/Tank Motherboard V3/Laser Tanks Tank Motherboard_backup/Laser Tanks Tank Motherboard_v245_2025-04-10-21-04.zip",
+    "Tank Motherboard/Tank Motherboard V3/Laser Tanks Tank Motherboard_backup/Laser Tanks Tank Motherboard_v245_2025-04-10-20-04.zip",
+    "Build Night logs/Build Night - 4th April 2025.md",
+    "Excalidraw/Drawing 2025-03-27 20.10.25.excalidraw.md",
+    "Tank Motherboard/Tank Motherboard.md",
     "Code/How to write and upload code.md",
     "Build Night - 20th March 2025.md",
     "Code/Communication.md",
@@ -251,11 +273,9 @@
     "Code/src/Tank/tank.cpp",
     "Code/src/Tank/controller.cpp",
     "Code/src/Tank/comms.cpp",
-    "Code/src/Tank",
     "Code/How to use ESPNOW.md",
     "Code/Tank Source.md",
     "Excalidraw/Drawing 2025-03-20 19.01.04.excalidraw.md",
-    "Tank Motherboard/Tank Motherboard V3/Laser Tanks Tank Motherboard.eprj-journal",
     "Build Night logs/Build Night - 13th March 2025.md",
     "Build Night logs/Build Night - 6th March 2025.md",
     "README.md",
@@ -266,22 +286,15 @@
     "Attachments/Pasted image 20250313174137.png",
     "Attachments/Pasted image 20250313164116.png",
     "Attachments/Pasted image 20250313134834.png",
-    "Attachments",
     "Pasted image 20250313174403.png",
     "Pasted image 20250313174216.png",
     "Pasted image 20250313174137.png",
-    "Pasted image 20250313164116.png",
     "How to use ESPNOW.md",
     "Laser Tanks.md",
-    "Tank Motherboard/Tank Motherboard.md",
     "ControllerPC/ControllerPC.md",
-    "Tank Motherboard/Tank Motherboard V2.excalidraw.md",
     "Tank CAD Model/Tank model V4/Tank model V4.md",
     "Tank CAD Model/Tank model V3/Tank model V3.md",
     "Tank CAD Model/Tank model V2/Tank model V2.md",
-    "Excalidraw/Drawing 2025-02-11 03.42.49.excalidraw.md",
-    "Excalidraw/Scripts/Downloaded/Palette loader.md",
-    "Note templates/Tank model template.md",
-    "Welcome.md"
+    "Excalidraw/Drawing 2025-02-11 03.42.49.excalidraw.md"
   ]
 }
