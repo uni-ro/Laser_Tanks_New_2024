@@ -60,4 +60,19 @@ Then, expand the option with the same name that you put in the ```[env:Whatever]
 
 ## Troubleshooting
 ### Board is not detected
-If you're computer is not detecting the microcontroller
+If your computer is not detecting the microcontroller
+
+### Uploading through wsl
+
+First install usbipd to windows, if not already installed. To install usbipd, use the command ```winget install usbipd``` in the windows command line
+Open a powershell window or command prompt in administrator mode.
+Use the command ```usbipd list``` to find a list of all connected usb devices.
+Find the device required and take note of the bus id under the "BUSID" column.
+If this is the first time connecting the device, run the command ```usbipd bind -b {BUSID}``` where {BUSID} is the id of the usb to attach
+Next, attach this to the wsl system by using the following command ```usbipd attach --wsl --busid {BUSID}``` where {BUSID} is still the id of the usb to attach.
+This should attach the usb to the wsl system.
+In wsl, run ```dmesg``` to find which port the device was attached to.
+If the port is not found, run the following command ```sudo modprobe cp210x```. The port should now be found.
+VSCode may state that there is an access denied error which can be fixed by running ```sudo chmod 777 {PORT}``` where {PORT} is the full path to the attached usb port.
+
+This is also explained in the following guide: https://developer.espressif.com/blog/espressif-devkits-with-wsl2/
