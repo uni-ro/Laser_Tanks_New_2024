@@ -21,7 +21,7 @@ This is an example of how to get a code file compiled and uploaded to the microc
 
 ### Create the code file
 Under the src folder, create a new .cpp file to write the code in.
-![[Pasted image 20250313164116.png]]
+![correct code location](https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Code/images/correct-code-location.png)
 The code file needs a few things in it before it can be compiled and uploaded
 
 ```cpp title="Minimal example"
