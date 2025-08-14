@@ -14,7 +14,7 @@ This is the guide for how to write code and upload the code to the ESP8266 and E
 
 3. **Open the the Tank Source folder in VSCode**.
 	Once you have VSCode set up, you can open the Tank Source folder. This folder contains everything for programming and uploading. You will know you have opened the correct folder if your explorer looks like this.
-	 ![[correct-vscode-folder.png]]
+	 !(correct vscode folder)[https://github.com/curtinrobotics/Laser_Tanks_New_2024/blob/master/Code/images/correct-vscode-folder.png]
 
 ## Minimal example
 This is an example of how to get a code file compiled and uploaded to the microcontrollers.
