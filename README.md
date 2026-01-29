@@ -1,6 +1,7 @@
 # Laser Tanks
 Laser Tanks is a project run by the Curtin Robotics Club.
 Our aim is to make a game of laser tag that is played with remote controlled tanks.
+hi from james
 
 ## Contents
 - [Code](https://github.com/curtinrobotics/Laser_Tanks_New_2024/tree/master/Code)
