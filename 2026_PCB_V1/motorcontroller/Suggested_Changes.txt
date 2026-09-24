@@ -1,0 +1,6 @@
+Needs pin header for battery not terminal blocks
+the traces between the battery to motor drivers to motor terminals seem a bit thin
+should have a pin out headers for a motor rather than a servo and possibly another motor driver on the pcb as the turret has 1 dc motor plus servo not 2 servos
+there are slight clearance issues at the top of the pcb due to the over hang from the esp32, though this is very minor 
+might be helpful to have more pin headers rather than terminal blocks for breaking out the battery + and 5v  
+Needs silkscreen labs for + and - on things like the led terminal blocks
