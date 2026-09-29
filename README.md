@@ -1,9 +1,13 @@
 # Laser Tanks
-Welcome to the repository for the Laser Tanks project in CRoC!  
-If you have any questions feel free to contact Project Lead, Daniel at my discord @doonual.
+Laser Tanks is a project run by the Curtin Robotics Club.
+Our aim is to make a game of laser tag that is played with remote controlled tanks.
+hi from james
 
 ## Contents
-- [[README#CAD model]]
+- [Code](https://github.com/curtinrobotics/Laser_Tanks_New_2024/tree/master/Code)
+- [Laser Reciever](https://github.com/curtinrobotics/Laser_Tanks_New_2024/tree/master/Laser%20Receiver)
+- [Tank CAD Model](https://github.com/curtinrobotics/Laser_Tanks_New_2024/tree/master/Tank%20CAD%20Model)
+- [Tank Motherboard](https://github.com/curtinrobotics/Laser_Tanks_New_2024/tree/master/Tank%20Motherboard)
 
 ***
 
